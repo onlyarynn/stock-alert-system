@@ -1,0 +1,65 @@
+2026-06-10 15:35:07 | INFO     | __main__             | =======================================================
+2026-06-10 15:35:07 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-10 15:35:07 | INFO     | __main__             | =======================================================
+2026-06-10 15:35:07 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-10 15:35:07 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-10 15:35:07 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-10 15:35:07 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-10 15:35:07 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-10 15:35:07 | INFO     | __main__             |   Poll interval : 300s
+2026-06-10 15:35:07 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-10 15:35:07 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-10 15:35:07 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-10 15:35:07 | INFO     | __main__             | =======================================================
+2026-06-10 15:35:07 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-10 15:35:08 | INFO     | __main__             | --once flag set: running single cycle then exiting
+2026-06-10 15:35:08 | INFO     | src.scheduler        | Cycle #1 | Wed 10 Jun, 15:35 IST | Market CLOSED — skipping
+2026-06-10 15:35:08 | INFO     | __main__             | Single cycle complete. Exiting.
+2026-06-10 15:37:42 | INFO     | __main__             | =======================================================
+2026-06-10 15:37:42 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-10 15:37:42 | INFO     | __main__             | =======================================================
+2026-06-10 15:37:42 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-10 15:37:42 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-10 15:37:42 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-10 15:37:42 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-10 15:37:42 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-10 15:37:42 | INFO     | __main__             |   Poll interval : 300s
+2026-06-10 15:37:42 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-10 15:37:42 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-10 15:37:42 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-10 15:37:42 | INFO     | __main__             |   *** DRY-RUN MODE — emails will NOT be sent ***
+2026-06-10 15:37:42 | INFO     | __main__             | =======================================================
+2026-06-10 15:37:42 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-10 15:37:43 | WARNING  | __main__             | DRY-RUN MODE active — prices will be fetched and analysed but NO emails sent
+2026-06-10 15:37:43 | INFO     | __main__             | --once flag set: running single cycle then exiting
+2026-06-10 15:37:43 | INFO     | src.scheduler        | Cycle #1 | Wed 10 Jun, 15:37 IST | Market CLOSED — skipping
+2026-06-10 15:37:43 | INFO     | __main__             | Single cycle complete. Exiting.
+2026-06-10 15:39:24 | INFO     | __main__             | =======================================================
+2026-06-10 15:39:24 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-10 15:39:24 | INFO     | __main__             | =======================================================
+2026-06-10 15:39:24 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-10 15:39:24 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-10 15:39:24 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-10 15:39:24 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-10 15:39:24 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-10 15:39:24 | INFO     | __main__             |   Poll interval : 300s
+2026-06-10 15:39:24 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-10 15:39:24 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-10 15:39:24 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-10 15:39:24 | INFO     | __main__             | =======================================================
+2026-06-10 15:39:24 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-10 15:39:25 | DEBUG    | tzlocal              | Looking up time zone info from registry
+2026-06-10 15:39:25 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-10 15:39:25 | INFO     | src.scheduler        | =======================================================
+2026-06-10 15:39:25 | INFO     | src.scheduler        |   Scheduler started
+2026-06-10 15:39:25 | INFO     | src.scheduler        |   Polling every : 300 seconds (5 min)
+2026-06-10 15:39:25 | INFO     | src.scheduler        |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-10 15:39:25 | INFO     | src.scheduler        |   Threshold     : 0.50%
+2026-06-10 15:39:25 | INFO     | src.scheduler        |   Cooldown      : 30 min
+2026-06-10 15:39:25 | INFO     | src.scheduler        |   Market hours  : 09:15 – 15:30 IST (Mon–Fri)
+2026-06-10 15:39:25 | INFO     | src.scheduler        | =======================================================
+2026-06-10 15:39:25 | INFO     | src.scheduler        | Cycle #1 | Wed 10 Jun, 15:39 IST | Market CLOSED — skipping
+2026-06-10 15:39:25 | INFO     | apscheduler.scheduler | Added job "Market price poll" to job store "default"
+2026-06-10 15:39:25 | INFO     | apscheduler.scheduler | Scheduler started
+2026-06-10 15:39:25 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-10 15:39:25 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-10 15:44:25.509991+05:30 (in 299.996820 seconds)
