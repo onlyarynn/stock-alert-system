@@ -1,0 +1,11 @@
+# Core dependencies
+yfinance>=0.2.38
+APScheduler>=3.10.4
+SQLAlchemy>=2.0.30
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+python-dotenv>=1.0.1
+
+# Testing
+pytest>=8.2.0
+pytest-cov>=5.0.0
