@@ -1,8 +1,12 @@
+"""
+analyzer.py — Signal analysis layer.
+Detects NORMAL and CRITICAL price movements and generates AlertSignals.
+"""
 
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Optional
@@ -13,31 +17,34 @@ from .fetcher import PriceData
 
 logger = logging.getLogger(__name__)
 
-# ── Direction Enum 
+
+# ── Enums ──────────────────────────────────────────────────────────────────────
+
+class AlertLevel(str, Enum):
+    """
+    NORMAL   — change >= ALERT_THRESHOLD_PCT (e.g. 0.5%)
+               Standard cooldown applies (30 min).
+    CRITICAL — change >= CRITICAL_THRESHOLD_PCT (e.g. 1.5%)
+               Bypasses normal cooldown. Repeats every 5 min.
+               Requires immediate buy/sell/hold decision.
+    """
+    NORMAL   = "NORMAL"
+    CRITICAL = "CRITICAL"
+
 
 class Direction(str, Enum):
-    """
-    Represents the direction of a price movement.
-    Inheriting from str means Direction.RISING == "RISING" is True,
-    which makes database storage and logging straightforward.
-    """
     RISING  = "RISING"
     FALLING = "FALLING"
     FLAT    = "FLAT"
 
 
-# ── Alert Signal
+# ── Alert Signal ───────────────────────────────────────────────────────────────
 
 @dataclass(frozen=True)
 class AlertSignal:
     """
-    Immutable object representing a confirmed alert event.
-
-    Created by MarketAnalyzer.analyze() when all conditions are met.
-    Passed to AlertNotifier.send() which formats and dispatches it.
-    Stored in the database by AlertNotifier after sending.
-
-    frozen=True — values cannot be changed after creation.
+    Immutable object representing one confirmed alert event.
+    Created by MarketAnalyzer.analyze(), passed to EmailNotifier.send().
     """
     ticker:         str
     display_name:   str
@@ -47,56 +54,61 @@ class AlertSignal:
     previous_price: float
     price_source:   str
     generated_at:   datetime
+    level:          AlertLevel = AlertLevel.NORMAL
 
-    # ── Computed helpers
+    # ── Properties ────────────────────────────────────────────────────────────
+
+    @property
+    def level_badge(self) -> str:
+        return "🚨 CRITICAL" if self.level == AlertLevel.CRITICAL else "🔔 NORMAL"
 
     @property
     def direction_arrow(self) -> str:
-        """Returns ▲ for rising, ▼ for falling."""
         return "▲" if self.direction == Direction.RISING else "▼"
 
     @property
     def abs_change_pct(self) -> float:
-        """Absolute value of the percentage change."""
         return abs(self.change_pct)
 
     @property
     def ist_time_str(self) -> str:
-        """Formatted IST timestamp string for display in emails."""
         from zoneinfo import ZoneInfo
         ist = ZoneInfo("Asia/Kolkata")
         ist_time = self.generated_at.astimezone(ist)
         return ist_time.strftime("%d %b %Y, %I:%M %p IST")
 
-    # ── Email formatting
+    # ── Email formatting ───────────────────────────────────────────────────────
 
     def format_email_subject(self) -> str:
-        """
-        Produces a clear, scannable email subject line.
-        Example: [ALERT] Nifty 50 (NSE) ▲ RISING +1.25% | 24,850.00
-        """
-        sign = "+" if self.change_pct > 0 else ""
+        sign   = "+" if self.change_pct > 0 else ""
+        prefix = "[🚨 CRITICAL ALERT]" if self.level == AlertLevel.CRITICAL \
+                 else "[ALERT]"
         return (
-            f"[ALERT] {self.display_name} "
+            f"{prefix} {self.display_name} "
             f"{self.direction_arrow} {self.direction.value} "
             f"{sign}{self.change_pct:.2f}% | "
             f"{self.current_price:,.2f}"
         )
 
     def format_email_body(self) -> str:
-        """
-        Produces a well-structured plain-text email body.
-        Contains all details needed to make a trading decision.
-        """
         sign      = "+" if self.change_pct > 0 else ""
         separator = "=" * 45
+        settings  = get_settings()
+
+        if self.level == AlertLevel.CRITICAL:
+            urgency_line1 = "⚠️  URGENT: Major market movement detected!"
+            urgency_line2 = "Act now — review your positions immediately."
+        else:
+            urgency_line1 = "Standard market movement alert."
+            urgency_line2 = "Monitor the situation."
 
         return f"""
 {separator}
-  STOCK MARKET ALERT — {self.display_name}
+  {self.level_badge} — {self.display_name}
 {separator}
 
   Index         : {self.display_name}
+  Alert Level   : {self.level_badge}
   Direction     : {self.direction_arrow} {self.direction.value}
   Change        : {sign}{self.change_pct:.2f}%
   Current Price : {self.current_price:,.2f}
@@ -106,29 +118,22 @@ class AlertSignal:
   Alert Time    : {self.ist_time_str}
 
 {separator}
+{urgency_line1}
+{urgency_line2}
 
+Thresholds — Normal: >={settings.ALERT_THRESHOLD_PCT}% | Critical: >={settings.CRITICAL_THRESHOLD_PCT}%
 This is an automated alert from your Stock Alert System.
-Threshold set at {get_settings().ALERT_THRESHOLD_PCT}% price change.
-
 {separator}
         """.strip()
 
 
-# ── Market Analyzer 
+# ── Market Analyzer ────────────────────────────────────────────────────────────
 
 class MarketAnalyzer:
     """
-    Core decision engine — decides whether to fire an alert.
-
-    For each incoming PriceData object, analyze() goes through:
-      1. Load previous price from database
-      2. Calculate percentage change
-      3. Skip if change is below threshold
-      4. Skip if cooldown period has not expired
-      5. Return AlertSignal if all checks pass, else None
-
-    Each call opens and closes its own database session, making
-    this class safe to call repeatedly from the scheduler loop.
+    Core decision engine.
+    Compares prices, applies threshold + cooldown rules,
+    returns AlertSignal (NORMAL or CRITICAL) or None.
     """
 
     def __init__(self) -> None:
@@ -136,11 +141,8 @@ class MarketAnalyzer:
 
     def analyze(self, price_data: PriceData) -> Optional[AlertSignal]:
         """
-        Analyse one fresh price reading and decide if an alert is needed.
-
-        Returns:
-            AlertSignal  — if an alert should be sent
-            None         — if no alert is needed
+        Analyse one fresh price and decide if an alert is needed.
+        Returns AlertSignal or None.
         """
         ticker  = price_data.ticker
         current = price_data.price
@@ -151,7 +153,6 @@ class MarketAnalyzer:
             previous = PriceRepository.get_last_price(session, ticker)
 
             if previous is None:
-                # First run — no baseline yet. Store price and wait.
                 logger.info(
                     "[%s] First run — storing baseline price %.2f",
                     ticker, current
@@ -159,7 +160,7 @@ class MarketAnalyzer:
                 PriceRepository.upsert_price(session, ticker, current)
                 return None
 
-            # ── Step 2: Calculate percentage change ────────────────────────
+            # ── Step 2: Calculate % change ─────────────────────────────────
             change_pct = ((current - previous) / previous) * 100
 
             if change_pct > 0:
@@ -174,29 +175,49 @@ class MarketAnalyzer:
                 ticker, current, previous, change_pct, direction.value
             )
 
-            # Always update the stored price for the next cycle
+            # Always update stored price for next cycle
             PriceRepository.upsert_price(session, ticker, current)
 
-            # ── Step 3: Check threshold ────────────────────────────────────
+            # ── Step 3: Check threshold + classify level ───────────────────
+            if direction == Direction.FLAT:
+                return None
+
             if abs(change_pct) < self._settings.ALERT_THRESHOLD_PCT:
                 logger.debug(
-                    "[%s] Change %.3f%% is below threshold %.3f%% — no alert",
+                    "[%s] Change %.3f%% below threshold %.3f%% — no alert",
                     ticker, abs(change_pct), self._settings.ALERT_THRESHOLD_PCT
                 )
                 return None
 
-            if direction == Direction.FLAT:
-                return None
+            # Classify as CRITICAL or NORMAL
+            if abs(change_pct) >= self._settings.CRITICAL_THRESHOLD_PCT:
+                alert_level = AlertLevel.CRITICAL
+            else:
+                alert_level = AlertLevel.NORMAL
 
-            # ── Step 4: Check cooldown ─────────────────────────────────────
-            if self._is_in_cooldown(session, ticker):
-                logger.info(
-                    "[%s] Threshold crossed but cooldown active — alert suppressed",
-                    ticker
+            # ── Step 4: Apply cooldown rules per level ─────────────────────
+            if alert_level == AlertLevel.CRITICAL:
+                if self._is_in_critical_cooldown(session, ticker):
+                    logger.info(
+                        "[%s] CRITICAL threshold crossed but "
+                        "critical cooldown active — suppressed",
+                        ticker
+                    )
+                    return None
+                logger.warning(
+                    "[%s] 🚨 CRITICAL movement: %+.2f%%",
+                    ticker, change_pct
                 )
-                return None
+            else:
+                if self._is_in_cooldown(session, ticker):
+                    logger.info(
+                        "[%s] Normal threshold crossed but "
+                        "cooldown active — suppressed",
+                        ticker
+                    )
+                    return None
 
-        # ── Step 5: Build and return the alert signal ──────────────────────
+        # ── Step 5: Build and return signal ────────────────────────────────
         signal = AlertSignal(
             ticker=ticker,
             display_name=TICKER_DISPLAY_NAMES.get(ticker, ticker),
@@ -206,42 +227,50 @@ class MarketAnalyzer:
             previous_price=previous,
             price_source=price_data.source,
             generated_at=datetime.now(timezone.utc),
+            level=alert_level,
         )
 
         logger.info(
-            "Alert signal generated: %s %s %+.2f%%",
+            "Alert signal generated: %s %s %s %+.2f%%",
+            signal.level_badge,
             signal.display_name,
             signal.direction.value,
             signal.change_pct,
         )
         return signal
 
-    # ── Private helpers
+    # ── Cooldown helpers ───────────────────────────────────────────────────────
 
     def _is_in_cooldown(self, session, ticker: str) -> bool:
-        """
-        Returns True if an alert was already sent for this ticker
-        within the configured cooldown window.
-
-        Reads from the database so cooldown survives app restarts.
-        """
+        """Standard 30-min cooldown for NORMAL alerts."""
         last_sent = AlertRepository.get_last_sent_time(session, ticker)
-
         if last_sent is None:
             return False
-
-        # Ensure last_sent is timezone-aware for comparison
         if last_sent.tzinfo is None:
             last_sent = last_sent.replace(tzinfo=timezone.utc)
-
         elapsed  = datetime.now(timezone.utc) - last_sent
         cooldown = timedelta(minutes=self._settings.COOLDOWN_MINUTES)
+        in_cooldown = elapsed < cooldown
+        if in_cooldown:
+            remaining = int((cooldown - elapsed).total_seconds() / 60)
+            logger.debug("[%s] Cooldown: %d min remaining", ticker, remaining)
+        return in_cooldown
 
+    def _is_in_critical_cooldown(self, session, ticker: str) -> bool:
+        """Short 5-min cooldown for CRITICAL alerts only."""
+        last_sent = AlertRepository.get_last_critical_alert_time(
+            session, ticker
+        )
+        if last_sent is None:
+            return False
+        if last_sent.tzinfo is None:
+            last_sent = last_sent.replace(tzinfo=timezone.utc)
+        elapsed  = datetime.now(timezone.utc) - last_sent
+        cooldown = timedelta(minutes=self._settings.CRITICAL_COOLDOWN_MINUTES)
         in_cooldown = elapsed < cooldown
         if in_cooldown:
             remaining = int((cooldown - elapsed).total_seconds() / 60)
             logger.debug(
-                "[%s] Cooldown active — %d min remaining",
-                ticker, remaining
+                "[%s] Critical cooldown: %d min remaining", ticker, remaining
             )
         return in_cooldown

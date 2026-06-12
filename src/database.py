@@ -1,13 +1,6 @@
 """
-database.py
------------
-Persistent storage layer using SQLite and SQLAlchemy ORM.
-
-Responsibilities:
-  - Create and manage database tables on first run
-  - Store every alert sent (full audit history)
-  - Track last-seen price per ticker (prevents false alerts on restart)
-  - Provide clean repository classes for reading and writing data
+database.py — Persistent storage using SQLite and SQLAlchemy ORM.
+Stores alert history and last-seen prices.
 """
 
 from __future__ import annotations
@@ -19,16 +12,8 @@ from pathlib import Path
 from typing import Optional
 
 from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    Float,
-    Integer,
-    String,
-    create_engine,
-    desc,
-    func,
-    text,
+    Boolean, Column, DateTime, Float,
+    Integer, String, create_engine, desc, func, text,
 )
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
@@ -36,28 +21,19 @@ from .config import get_settings
 
 logger = logging.getLogger(__name__)
 
-
-# ── ORM Base ───────────────────────────────────────────────────────────────────
-# Using declarative_base() instead of DeclarativeBase class
-# for compatibility with SQLAlchemy 2.0 on all platforms
-
 Base = declarative_base()
 
 
 # ── Table 1: Alert Records ─────────────────────────────────────────────────────
 
 class AlertRecord(Base):
-    """
-    One row inserted every time an alert email is dispatched.
-    Used for cooldown tracking and full audit history.
-    """
-
     __tablename__ = "alert_records"
 
-    id             = Column(Integer,  primary_key=True, autoincrement=True)
+    id             = Column(Integer,     primary_key=True, autoincrement=True)
     ticker         = Column(String(20),  nullable=False, index=True)
     display_name   = Column(String(100), nullable=False)
     direction      = Column(String(10),  nullable=False)
+    alert_level    = Column(String(10),  nullable=False, default="NORMAL")
     change_pct     = Column(Float,       nullable=False)
     current_price  = Column(Float,       nullable=False)
     previous_price = Column(Float,       nullable=False)
@@ -69,88 +45,55 @@ class AlertRecord(Base):
     def __repr__(self) -> str:
         return (
             f"<AlertRecord ticker={self.ticker} "
+            f"level={self.alert_level} "
             f"direction={self.direction} "
-            f"change={self.change_pct:.2f}% "
-            f"sent_at={self.sent_at}>"
+            f"change={self.change_pct:.2f}%>"
         )
 
 
 # ── Table 2: Price Snapshots ───────────────────────────────────────────────────
 
 class PriceSnapshot(Base):
-    """
-    Stores the most recent price seen for each ticker.
-    On restart the analyzer reads this instead of waiting
-    for two consecutive live prices — prevents false alerts.
-    """
-
     __tablename__ = "price_snapshots"
 
-    id          = Column(Integer,   primary_key=True, autoincrement=True)
+    id          = Column(Integer,    primary_key=True, autoincrement=True)
     ticker      = Column(String(20), nullable=False, unique=True, index=True)
-    price       = Column(Float,     nullable=False)
-    recorded_at = Column(DateTime,  nullable=False)
+    price       = Column(Float,      nullable=False)
+    recorded_at = Column(DateTime,   nullable=False)
 
     def __repr__(self) -> str:
-        return (
-            f"<PriceSnapshot ticker={self.ticker} "
-            f"price={self.price}>"
-        )
+        return f"<PriceSnapshot ticker={self.ticker} price={self.price}>"
 
 
-# ── Engine & Session Setup ─────────────────────────────────────────────────────
+# ── Engine & Session ───────────────────────────────────────────────────────────
 
 _engine       = None
 _SessionLocal = None
 
 
 def init_db() -> None:
-    """
-    Initialise the database engine and create all tables.
-    Call this ONCE from main.py at startup.
-    Creates the data/ directory and alerts.db automatically.
-    """
     global _engine, _SessionLocal
-
     settings = get_settings()
     db_path  = Path(settings.DB_PATH)
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
-    db_url  = f"sqlite:///{db_path}"
     _engine = create_engine(
-        db_url,
+        f"sqlite:///{db_path}",
         connect_args={"check_same_thread": False},
         echo=False,
     )
-
     Base.metadata.create_all(bind=_engine)
-
     _SessionLocal = sessionmaker(
-        autocommit=False,
-        autoflush=False,
-        bind=_engine,
+        autocommit=False, autoflush=False, bind=_engine
     )
-
     logger.info("Database initialised at: %s", db_path)
     print(f"Database initialised at: {db_path}")
 
 
 @contextmanager
 def get_session():
-    """
-    Provides a database session as a context manager.
-
-    Usage:
-        with get_session() as session:
-            PriceRepository.upsert_price(session, ticker, price)
-
-    Commits on success, rolls back on any exception.
-    """
     if _SessionLocal is None:
-        raise RuntimeError(
-            "Database not initialised. "
-            "Call init_db() before using get_session()."
-        )
+        raise RuntimeError("Call init_db() before get_session().")
     session: Session = _SessionLocal()
     try:
         yield session
@@ -165,10 +108,6 @@ def get_session():
 # ── Alert Repository ───────────────────────────────────────────────────────────
 
 class AlertRepository:
-    """
-    All read/write operations for the alert_records table.
-    Never write raw SQL elsewhere — use these methods only.
-    """
 
     @staticmethod
     def save(
@@ -177,6 +116,7 @@ class AlertRepository:
         ticker: str,
         display_name: str,
         direction: str,
+        alert_level: str = "NORMAL",
         change_pct: float,
         current_price: float,
         previous_price: float,
@@ -184,11 +124,11 @@ class AlertRepository:
         success: bool = True,
         error_message: Optional[str] = None,
     ) -> AlertRecord:
-        """Insert a new alert record and return it."""
         record = AlertRecord(
             ticker=ticker,
             display_name=display_name,
             direction=direction,
+            alert_level=alert_level,
             change_pct=round(change_pct, 4),
             current_price=round(current_price, 2),
             previous_price=round(previous_price, 2),
@@ -204,13 +144,9 @@ class AlertRepository:
 
     @staticmethod
     def get_last_sent_time(
-        session: Session,
-        ticker: str,
+        session: Session, ticker: str
     ) -> Optional[datetime]:
-        """
-        Returns UTC datetime of the most recent successful alert
-        for this ticker, or None if no alert has been sent yet.
-        """
+        """Last successful alert time for any level — used for normal cooldown."""
         row = (
             session.query(AlertRecord.sent_at)
             .filter(
@@ -223,11 +159,24 @@ class AlertRepository:
         return row[0] if row else None
 
     @staticmethod
-    def get_total_sent_today(
-        session: Session,
-        ticker: str,
-    ) -> int:
-        """Returns how many alerts were sent today for this ticker."""
+    def get_last_critical_alert_time(
+        session: Session, ticker: str
+    ) -> Optional[datetime]:
+        """Last CRITICAL alert time — used for critical cooldown (5 min)."""
+        row = (
+            session.query(AlertRecord.sent_at)
+            .filter(
+                AlertRecord.ticker      == ticker,
+                AlertRecord.success     == True,
+                AlertRecord.alert_level == "CRITICAL",
+            )
+            .order_by(desc(AlertRecord.sent_at))
+            .first()
+        )
+        return row[0] if row else None
+
+    @staticmethod
+    def get_total_sent_today(session: Session, ticker: str) -> int:
         today_start = datetime.now(timezone.utc).replace(
             hour=0, minute=0, second=0, microsecond=0
         )
@@ -245,49 +194,21 @@ class AlertRepository:
 # ── Price Repository ───────────────────────────────────────────────────────────
 
 class PriceRepository:
-    """
-    All read/write operations for the price_snapshots table.
-    """
 
     @staticmethod
-    def get_last_price(
-        session: Session,
-        ticker: str,
-    ) -> Optional[float]:
-        """
-        Returns last stored price for this ticker,
-        or None if no price stored yet (first run).
-        """
-        row = (
-            session.query(PriceSnapshot)
-            .filter_by(ticker=ticker)
-            .first()
-        )
+    def get_last_price(session: Session, ticker: str) -> Optional[float]:
+        row = session.query(PriceSnapshot).filter_by(ticker=ticker).first()
         return row.price if row else None
 
     @staticmethod
-    def upsert_price(
-        session: Session,
-        ticker: str,
-        price: float,
-    ) -> None:
-        """
-        Insert or update price snapshot for this ticker.
-        Called every poll cycle regardless of whether an alert fired.
-        """
-        row = (
-            session.query(PriceSnapshot)
-            .filter_by(ticker=ticker)
-            .first()
-        )
+    def upsert_price(session: Session, ticker: str, price: float) -> None:
+        row = session.query(PriceSnapshot).filter_by(ticker=ticker).first()
         now = datetime.now(timezone.utc)
         if row:
             row.price       = price
             row.recorded_at = now
         else:
             session.add(PriceSnapshot(
-                ticker=ticker,
-                price=price,
-                recorded_at=now,
+                ticker=ticker, price=price, recorded_at=now
             ))
-        logger.debug("Price snapshot updated: %s = %.2f", ticker, price)
+        logger.debug("Price snapshot: %s = %.2f", ticker, price)

@@ -82,6 +82,7 @@ class EmailNotifier:
         logger.info(
             "Sending alert email to %s | Subject: %s",
             recipient, subject
+
         )
 
         # ── Step 1 & 2: Build and send email ──────────────────────────────
@@ -216,6 +217,7 @@ class EmailNotifier:
                     ticker=signal.ticker,
                     display_name=signal.display_name,
                     direction=signal.direction.value,
+                    alert_level=signal.level.value,
                     change_pct=signal.change_pct,
                     current_price=signal.current_price,
                     previous_price=signal.previous_price,
