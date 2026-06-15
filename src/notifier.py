@@ -2,15 +2,7 @@
 notifier.py
 -----------
 Email notification layer — sends alert emails via Gmail SMTP.
-
-Responsibilities:
-  - Format and send alert emails using Gmail App Password
-  - Handle SMTP errors gracefully without crashing the system
-  - Record every send attempt in the database (success or failure)
-  - Return a NotificationResult so the scheduler knows what happened
-
-Uses Python's built-in smtplib — no extra packages needed.
-Connection method: SMTP_SSL on port 465 (most reliable for Gmail).
+Also fires Telegram alerts in parallel when configured.
 """
 
 from __future__ import annotations
@@ -25,6 +17,7 @@ from typing import Optional
 from .analyzer import AlertSignal
 from .config import get_settings
 from .database import AlertRepository, get_session
+from .telegram_notifier import TelegramNotifier
 
 logger = logging.getLogger(__name__)
 
@@ -34,9 +27,8 @@ logger = logging.getLogger(__name__)
 @dataclass
 class NotificationResult:
     """
-    Returned by EmailNotifier.send() after every dispatch attempt.
-    Tells the scheduler whether the email was sent and why it
-    succeeded or failed — used for logging and database recording.
+    Returned after every dispatch attempt.
+    success=True means at least the email was sent.
     """
     success:       bool
     recipient:     str
@@ -52,17 +44,127 @@ class NotificationResult:
 
 class EmailNotifier:
     """
-    Sends alert emails via Gmail SMTP using an App Password.
-
-    Instantiate once and reuse — settings are loaded at creation
-    and the SMTP connection is opened fresh for each email
-    (keeps things simple and avoids stale connection issues).
+    Sends alert emails via Gmail SMTP.
+    Fires Telegram alerts in parallel when TELEGRAM_BOT_TOKEN
+    and TELEGRAM_CHAT_ID are configured in .env.
     """
+
+    def __init__(self) -> None:
+        self._settings = get_settings()
+        self._telegram = TelegramNotifier()
+
+    # ── Public: Price change alert ─────────────────────────────────────────────
+
+    def send(self, signal: AlertSignal) -> NotificationResult:
+        """
+        Send alert email + Telegram for a price change signal.
+        Records result in database. Never raises.
+        """
+        recipient = self._settings.ALERT_RECIPIENT_EMAIL
+        subject   = signal.format_email_subject()
+        body      = signal.format_email_body()
+
+        logger.info(
+            "Sending alert email to %s | Subject: %s",
+            recipient, subject
+        )
+
+        # ── Email ──────────────────────────────────────────────────────────
+        result = self._send_email(
+            recipient=recipient,
+            subject=subject,
+            body=body,
+        )
+
+        # ── Telegram (parallel — failure never blocks email) ───────────────
+        tg_result = self._telegram.send_alert(signal)
+        if tg_result.success:
+            logger.info("Telegram alert sent ✓")
+        else:
+            logger.warning(
+                "Telegram alert failed (non-critical): %s",
+                tg_result.error_message
+            )
+
+        # ── Database ───────────────────────────────────────────────────────
+        self._record_to_db(signal=signal, result=result)
+
+        if result.success:
+            logger.info("Alert dispatched: %s", result)
+        else:
+            logger.error("Alert dispatch failed: %s", result)
+
+        return result
+
+    # ── Public: Market closed notification ────────────────────────────────────
+
+    def send_market_closed_email(
+        self,
+        reason: str,
+        next_trading_day: str,
+        upcoming_holidays: list,
+    ) -> NotificationResult:
+        """
+        Sends a single notification email when market is closed.
+        Called once per closed day.
+        """
+        recipient = self._settings.ALERT_RECIPIENT_EMAIL
+        subject   = f"[MARKET CLOSED] {reason} — Resumes {next_trading_day}"
+
+        if upcoming_holidays:
+            holiday_lines = "\n".join(
+                f"  - {d.strftime('%d %b %Y')} — {name}"
+                for d, name in upcoming_holidays
+            )
+            upcoming_section = (
+                f"Upcoming market holidays (next 30 days):\n"
+                f"{holiday_lines}"
+            )
+        else:
+            upcoming_section = "No further holidays in the next 30 days."
+
+        separator = "=" * 45
+        body = f"""
+{separator}
+  MARKET CLOSED — Stock Alert System
+{separator}
+
+  Status        : Market CLOSED today
+  Reason        : {reason}
+  Next Open Day : {next_trading_day}
+
+{separator}
+  Monitoring paused for today.
+  System will auto-resume on next trading day.
+
+{upcoming_section}
+
+{separator}
+This is an automated message from your Stock Alert System.
+{separator}
+        """.strip()
+
+        logger.info("Sending market closed notification: %s", reason)
+        result = self._send_email(
+            recipient=recipient,
+            subject=subject,
+            body=body,
+        )
+        if result.success:
+            logger.info("Market closed email sent successfully.")
+        else:
+            logger.error(
+                "Failed to send market closed email: %s",
+                result.error_message
+            )
+        return result
+
+    # ── Public: Support/Resistance level alert ────────────────────────────────
 
     def send_level_alert(self, alert) -> NotificationResult:
         """
         Sends a support/resistance level alert email.
-        Uses a distinct subject line format from normal price alerts.
+        Distinct subject line format from normal price alerts.
         """
         recipient = self._settings.ALERT_RECIPIENT_EMAIL
         subject   = alert.format_email_subject()
@@ -85,51 +187,7 @@ class EmailNotifier:
             )
         return result
 
-    def __init__(self) -> None:
-        self._settings = get_settings()
-
-    def send(self, signal: AlertSignal) -> NotificationResult:
-        """
-        Send an alert email for the given signal.
-
-        Steps:
-          1. Build the email message (subject + body)
-          2. Connect to Gmail SMTP and send
-          3. Record the result in the database
-          4. Return NotificationResult
-
-        Never raises an exception — all errors are caught,
-        logged, and returned in the NotificationResult.
-        """
-        recipient = self._settings.ALERT_RECIPIENT_EMAIL
-        subject   = signal.format_email_subject()
-        body      = signal.format_email_body()
-
-        logger.info(
-            "Sending alert email to %s | Subject: %s",
-            recipient, subject
-
-        )
-
-        # ── Step 1 & 2: Build and send email ──────────────────────────────
-        result = self._send_email(
-            recipient=recipient,
-            subject=subject,
-            body=body,
-        )
-
-        # ── Step 3: Record in database ─────────────────────────────────────
-        self._record_to_db(signal=signal, result=result)
-
-        # ── Step 4: Log outcome ────────────────────────────────────────────
-        if result.success:
-            logger.info("Alert dispatched: %s", result)
-        else:
-            logger.error("Alert dispatch failed: %s", result)
-
-        return result
-
-    # ── Private: SMTP Send ─────────────────────────────────────────────────────
+    # ── Private: SMTP ─────────────────────────────────────────────────────────
 
     def _send_email(
         self,
@@ -138,21 +196,14 @@ class EmailNotifier:
         subject: str,
         body: str,
     ) -> NotificationResult:
-        """
-        Builds the MIME email and sends it via Gmail SMTP SSL.
-        Returns NotificationResult — never raises.
-        """
+        """Builds MIME email and sends via Gmail SMTP SSL port 465."""
         try:
-            # Build the email message
             msg = MIMEMultipart("alternative")
             msg["Subject"] = subject
             msg["From"]    = self._settings.GMAIL_SENDER
             msg["To"]      = recipient
-
-            # Attach plain text body
             msg.attach(MIMEText(body, "plain", "utf-8"))
 
-            # Connect and send via Gmail SMTP SSL (port 465)
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                 server.login(
                     self._settings.GMAIL_SENDER,
@@ -173,32 +224,25 @@ class EmailNotifier:
         except smtplib.SMTPAuthenticationError:
             error = (
                 "Gmail authentication failed. "
-                "Check GMAIL_SENDER and GMAIL_APP_PASSWORD in .env. "
-                "Make sure the App Password has no spaces."
+                "Check GMAIL_SENDER and GMAIL_APP_PASSWORD in .env."
             )
             logger.error(error)
             return NotificationResult(
-                success=False,
-                recipient=recipient,
-                error_message=error,
+                success=False, recipient=recipient, error_message=error
             )
 
         except smtplib.SMTPRecipientsRefused:
-            error = f"Recipient address refused by Gmail: {recipient}"
+            error = f"Recipient refused by Gmail: {recipient}"
             logger.error(error)
             return NotificationResult(
-                success=False,
-                recipient=recipient,
-                error_message=error,
+                success=False, recipient=recipient, error_message=error
             )
 
         except smtplib.SMTPException as exc:
             error = f"SMTP error: {exc}"
             logger.error(error)
             return NotificationResult(
-                success=False,
-                recipient=recipient,
-                error_message=error,
+                success=False, recipient=recipient, error_message=error
             )
 
         except OSError as exc:
@@ -208,21 +252,17 @@ class EmailNotifier:
             )
             logger.error(error)
             return NotificationResult(
-                success=False,
-                recipient=recipient,
-                error_message=error,
+                success=False, recipient=recipient, error_message=error
             )
 
         except Exception as exc:
             error = f"Unexpected error sending email: {exc}"
             logger.error(error, exc_info=True)
             return NotificationResult(
-                success=False,
-                recipient=recipient,
-                error_message=error,
+                success=False, recipient=recipient, error_message=error
             )
 
-    # ── Private: Database Recording ────────────────────────────────────────────
+    # ── Private: Database ─────────────────────────────────────────────────────
 
     def _record_to_db(
         self,
@@ -230,12 +270,7 @@ class EmailNotifier:
         signal: AlertSignal,
         result: NotificationResult,
     ) -> None:
-        """
-        Saves the alert dispatch attempt to the database.
-        Called after every send — success or failure.
-        If the DB write itself fails, logs the error and continues
-        so a database issue never blocks email sending.
-        """
+        """Saves every dispatch attempt to database — success or failure."""
         try:
             with get_session() as session:
                 AlertRepository.save(

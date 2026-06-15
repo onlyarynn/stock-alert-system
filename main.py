@@ -54,12 +54,21 @@ Examples:
         metavar="MINUTES",
         help="Override cooldown minutes between alerts (e.g. 30)",
     )
+
     parser.add_argument(
         "--once",
         action="store_true",
         default=False,
         help="Run exactly one monitoring cycle then exit",
     )
+
+    # ── ADD HERE ──────────────────────────────────────────────────────────
+    parser.add_argument(
+        "--test-telegram",
+        action="store_true",
+        default=False,
+        help="Send a test Telegram message and exit",
+    ) # ← this line already exists, add above it
 
     return parser
 
@@ -161,11 +170,24 @@ def main() -> None:
     print_banner(settings, dry_run=args.dry_run)
 
     # ── Step 5: Initialise database ────────────────────────────────────────
+    # ── Step 5: Initialise database ────────────────────────────────────────
     from src.database import init_db
     init_db()
 
+    # ── ADD HERE ───────────────────────────────────────────────────────────
+    if args.test_telegram:
+        logger.info("Testing Telegram connection...")
+        from src.telegram_notifier import TelegramNotifier
+        tg = TelegramNotifier()
+        success = tg.test_connection()
+        if success:
+            logger.info("✅ Telegram test PASSED — check your Telegram app")
+        else:
+            logger.error("❌ Telegram test FAILED — check token and chat ID in .env")
+        sys.exit(0 if success else 1)
+
     # ── Step 6: Create scheduler ───────────────────────────────────────────
-    from src.scheduler import StockAlertScheduler
+    from src.scheduler import StockAlertScheduler  
     scheduler = StockAlertScheduler()
 
     # ── Dry-run mode: patch notifier to skip actual sending ────────────────

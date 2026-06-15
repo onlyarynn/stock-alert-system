@@ -19,14 +19,29 @@ class Settings(BaseSettings):
     )
 
     # ── Gmail credentials ─────────────────────────────────────────────
-    GMAIL_SENDER: str = Field(...)
-    GMAIL_APP_PASSWORD: str = Field(...)
+    GMAIL_SENDER: str          = Field(...)
+    GMAIL_APP_PASSWORD: str    = Field(...)
     ALERT_RECIPIENT_EMAIL: str = Field(...)
 
+    # ── Telegram credentials (optional) ───────────────────────────────
+    TELEGRAM_BOT_TOKEN: str = Field(
+        default="",
+        description="Telegram Bot Token from BotFather"
+    )
+    TELEGRAM_CHAT_ID: str = Field(
+        default="",
+        description="Your Telegram Chat ID"
+    )
+
+    @property
+    def telegram_enabled(self) -> bool:
+        """Returns True only if both Telegram credentials are set."""
+        return bool(self.TELEGRAM_BOT_TOKEN and self.TELEGRAM_CHAT_ID)
+
     # ── Normal alert settings ─────────────────────────────────────────
-    POLL_INTERVAL_SECONDS: int   = Field(default=300, ge=60, le=3600)
-    ALERT_THRESHOLD_PCT: float   = Field(default=0.5, gt=0.0, le=20.0)
-    COOLDOWN_MINUTES: int        = Field(default=30, ge=5)
+    POLL_INTERVAL_SECONDS: int = Field(default=300, ge=60, le=3600)
+    ALERT_THRESHOLD_PCT: float = Field(default=0.5, gt=0.0, le=20.0)
+    COOLDOWN_MINUTES: int      = Field(default=30, ge=5)
 
     # ── Critical alert settings ───────────────────────────────────────
     CRITICAL_THRESHOLD_PCT: float = Field(
@@ -42,9 +57,9 @@ class Settings(BaseSettings):
     WATCHLIST: str = Field(default="^NSEI,^BSESN")
 
     # ── Market hours (IST, 24-hour) ───────────────────────────────────
-    MARKET_OPEN_HOUR: int   = Field(default=9)
-    MARKET_OPEN_MINUTE: int = Field(default=15)
-    MARKET_CLOSE_HOUR: int  = Field(default=15)
+    MARKET_OPEN_HOUR: int    = Field(default=9)
+    MARKET_OPEN_MINUTE: int  = Field(default=15)
+    MARKET_CLOSE_HOUR: int   = Field(default=15)
     MARKET_CLOSE_MINUTE: int = Field(default=30)
 
     # ── Storage and logging ───────────────────────────────────────────

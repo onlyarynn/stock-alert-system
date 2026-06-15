@@ -4848,3 +4848,1517 @@
 2026-06-15 12:22:11 | INFO     | apscheduler.scheduler | Scheduler started
 2026-06-15 12:22:11 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
 2026-06-15 12:22:11 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:27:04.088192+05:30 (in 293.063754 seconds)
+2026-06-15 12:31:15 | INFO     | __main__             | =======================================================
+2026-06-15 12:31:15 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 12:31:15 | INFO     | __main__             | =======================================================
+2026-06-15 12:31:15 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 12:31:15 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 12:31:15 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 12:31:15 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 12:31:15 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 12:31:15 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 12:31:15 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 12:31:15 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 12:31:15 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 12:31:15 | INFO     | __main__             | =======================================================
+2026-06-15 12:31:16 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 12:31:17 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 12:31:17 | DEBUG    | tzlocal              | Looking up time zone info from registry
+2026-06-15 12:31:17 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-15 12:31:17 | INFO     | src.scheduler        | =======================================================
+2026-06-15 12:31:17 | INFO     | src.scheduler        |   Scheduler started
+2026-06-15 12:31:17 | INFO     | src.scheduler        |   Polling every : 300 seconds (5 min)
+2026-06-15 12:31:17 | INFO     | src.scheduler        |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 12:31:17 | INFO     | src.scheduler        |   Threshold     : 0.50%
+2026-06-15 12:31:17 | INFO     | src.scheduler        |   Cooldown      : 30 min
+2026-06-15 12:31:17 | INFO     | src.scheduler        |   Market hours  : 09:15 – 15:30 IST (Mon–Fri)
+2026-06-15 12:31:17 | INFO     | src.scheduler        | =======================================================
+2026-06-15 12:31:17 | INFO     | src.scheduler        | ──── Cycle #1 | 12:31:17 IST ────
+2026-06-15 12:31:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:31:17 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_tz_kv" ("key" VARCHAR(255) NOT NULL PRIMARY KEY, "value" VARCHAR(255)) WITHOUT ROWID', [])
+2026-06-15 12:31:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:31:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:31:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:31:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:31:17 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:31:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:31:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |        Entering _load_cookie_curlCffi()
+2026-06-15 12:31:17 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_cookieschema" ("strategy" VARCHAR(255) NOT NULL PRIMARY KEY, "fetch_date" DATETIME NOT NULL, "cookie_bytes" BLOB NOT NULL) WITHOUT ROWID', [])
+2026-06-15 12:31:17 | DEBUG    | peewee               | ('SELECT "t1"."strategy", "t1"."fetch_date", "t1"."cookie_bytes" FROM "_cookieschema" AS "t1" WHERE ("t1"."strategy" = ?) LIMIT ? OFFSET ?', ['curlCffi', 1, 0])
+2026-06-15 12:31:17 | DEBUG    | yfinance             |        Exiting _load_cookie_curlCffi()
+2026-06-15 12:31:17 | DEBUG    | yfinance             | reusing persistent cookie
+2026-06-15 12:31:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |        Entering _get_cookie_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:31:17 | DEBUG    | yfinance             |        Exiting _get_cookie_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             | crumb = 'tDYzXCmPkny'
+2026-06-15 12:31:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:31:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:31:18 | INFO     | src.levels           | [^NSEI] Pivot levels calculated: PP=23527.38 R1=23740.87 R2=23858.83 R3=24072.32 S1=23409.42 S2=23195.93 S3=23077.97
+2026-06-15 12:31:18 | INFO     | src.scheduler        | [^NSEI] Pivot levels ready: PP=23527.38  R1=23740.87  R2=23858.83  S1=23409.42  S2=23195.93
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:31:18 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:31:18 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:18 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:31:18 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:31:18 | INFO     | src.levels           | [^BSESN] Pivot levels calculated: PP=75196.46 R1=75939.52 R2=76351.09 R3=77094.15 S1=74784.89 S2=74041.82 S3=73630.26
+2026-06-15 12:31:18 | INFO     | src.scheduler        | [^BSESN] Pivot levels ready: PP=75196.46  R1=75939.52  R2=76351.09  S1=74784.89  S2=74041.82
+2026-06-15 12:31:18 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:31:18 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:31:18 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:18 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:31:18 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:01:17
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:31:17+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:31:17+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:30:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:31:18 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,900.25 (vol=0, source=yfinance)
+2026-06-15 12:31:18 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:31:18 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:31:18 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:31:18 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:31:18 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:31:18 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:31:18 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:31:18 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 06:46:17
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:16:17+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:16:17+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:15:00+05:30
+2026-06-15 12:31:18 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:31:18 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:31:18 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,506.21 (vol=0, source=yfinance)
+2026-06-15 12:31:18 | DEBUG    | src.analyzer         | [^NSEI] Current: 23900.25 | Previous: 23915.00 | Change: -0.062% (FALLING)
+2026-06-15 12:31:18 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23900.25
+2026-06-15 12:31:18 | DEBUG    | src.analyzer         | [^NSEI] Change 0.062% below threshold 0.500% — no alert
+2026-06-15 12:31:18 | INFO     | src.levels           | [^NSEI] APPROACHING R2 (RESISTANCE) — 0.174% away
+2026-06-15 12:31:18 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Nifty 50 (NSE) near R2 (23,858.83) | Now: 23,900.25
+2026-06-15 12:31:21 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 12:31:21 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 12:31:21 | INFO     | src.scheduler        | [^NSEI] Level alert sent ✓ | APPROACHING R2
+2026-06-15 12:31:21 | DEBUG    | src.analyzer         | [^BSESN] Current: 76506.21 | Previous: 76577.34 | Change: -0.093% (FALLING)
+2026-06-15 12:31:21 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76506.21
+2026-06-15 12:31:21 | DEBUG    | src.analyzer         | [^BSESN] Change 0.093% below threshold 0.500% — no alert
+2026-06-15 12:31:21 | INFO     | src.levels           | [^BSESN] APPROACHING R2 (RESISTANCE) — 0.203% away
+2026-06-15 12:31:21 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Sensex (BSE) near R2 (76,351.09) | Now: 76,506.21
+2026-06-15 12:31:24 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 12:31:24 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 12:31:24 | INFO     | src.scheduler        | [^BSESN] Level alert sent ✓ | APPROACHING R2
+2026-06-15 12:31:24 | INFO     | src.scheduler        | ──── Cycle #1 complete | Sent: 2 | Skipped: 2 | Errors: 0 ────
+2026-06-15 12:31:24 | INFO     | apscheduler.scheduler | Added job "Market price poll" to job store "default"
+2026-06-15 12:31:24 | INFO     | apscheduler.scheduler | Scheduler started
+2026-06-15 12:31:24 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:31:24 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:36:17.184408+05:30 (in 292.909345 seconds)
+2026-06-15 12:36:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:36:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:36:17.184408+05:30 (in 0.003509 seconds)
+2026-06-15 12:36:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:36:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:41:17.184408+05:30 (in 299.985859 seconds)
+2026-06-15 12:36:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:41:17 IST)" (scheduled at 2026-06-15 12:36:17.184408+05:30)
+2026-06-15 12:36:17 | INFO     | src.scheduler        | ──── Cycle #2 | 12:36:17 IST ────
+2026-06-15 12:36:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 12:36:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:36:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:36:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:36:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:36:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:36:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:36:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:36:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:06:17
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:36:17+05:30
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:36:17+05:30
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:35:00+05:30
+2026-06-15 12:36:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:36:17 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,914.10 (vol=0, source=yfinance)
+2026-06-15 12:36:17 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 12:36:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:36:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:36:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:36:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:36:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:36:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:36:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:36:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:36:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:36:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 06:51:16
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:21:16+05:30
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:21:16+05:30
+2026-06-15 12:36:17 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:20:00+05:30
+2026-06-15 12:36:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:36:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:36:17 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,453.87 (vol=0, source=yfinance)
+2026-06-15 12:36:17 | DEBUG    | src.analyzer         | [^NSEI] Current: 23914.10 | Previous: 23900.25 | Change: +0.058% (RISING)
+2026-06-15 12:36:17 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23914.10
+2026-06-15 12:36:17 | DEBUG    | src.analyzer         | [^NSEI] Change 0.058% below threshold 0.500% — no alert
+2026-06-15 12:36:17 | DEBUG    | src.analyzer         | [^BSESN] Current: 76453.87 | Previous: 76506.21 | Change: -0.068% (FALLING)
+2026-06-15 12:36:17 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76453.87
+2026-06-15 12:36:17 | DEBUG    | src.analyzer         | [^BSESN] Change 0.068% below threshold 0.500% — no alert
+2026-06-15 12:36:17 | INFO     | src.scheduler        | ──── Cycle #2 complete | Sent: 0 | Skipped: 2 | Errors: 0 ────
+2026-06-15 12:36:17 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:41:17 IST)" executed successfully
+2026-06-15 12:41:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:41:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:46:17.184408+05:30 (in 299.997344 seconds)
+2026-06-15 12:41:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:46:17 IST)" (scheduled at 2026-06-15 12:41:17.184408+05:30)
+2026-06-15 12:41:17 | INFO     | src.scheduler        | ──── Cycle #3 | 12:41:17 IST ────
+2026-06-15 12:41:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 12:41:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:41:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:41:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:41:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:41:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:41:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:41:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:41:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:11:16
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:41:16+05:30
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:41:16+05:30
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:40:00+05:30
+2026-06-15 12:41:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:41:17 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,901.15 (vol=0, source=yfinance)
+2026-06-15 12:41:17 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 12:41:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:41:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:41:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:41:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:41:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:41:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:41:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:41:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:41:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:41:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 06:56:16
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:26:16+05:30
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:26:16+05:30
+2026-06-15 12:41:17 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:25:00+05:30
+2026-06-15 12:41:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:41:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:41:17 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,447.16 (vol=0, source=yfinance)
+2026-06-15 12:41:17 | DEBUG    | src.analyzer         | [^NSEI] Current: 23901.15 | Previous: 23914.10 | Change: -0.054% (FALLING)
+2026-06-15 12:41:17 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23901.15
+2026-06-15 12:41:17 | DEBUG    | src.analyzer         | [^NSEI] Change 0.054% below threshold 0.500% — no alert
+2026-06-15 12:41:17 | DEBUG    | src.analyzer         | [^BSESN] Current: 76447.16 | Previous: 76453.87 | Change: -0.009% (FALLING)
+2026-06-15 12:41:17 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76447.16
+2026-06-15 12:41:17 | DEBUG    | src.analyzer         | [^BSESN] Change 0.009% below threshold 0.500% — no alert
+2026-06-15 12:41:17 | INFO     | src.scheduler        | ──── Cycle #3 complete | Sent: 0 | Skipped: 2 | Errors: 0 ────
+2026-06-15 12:41:17 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:46:17 IST)" executed successfully
+2026-06-15 12:46:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:46:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:51:17.184408+05:30 (in 299.984975 seconds)
+2026-06-15 12:46:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:51:17 IST)" (scheduled at 2026-06-15 12:46:17.184408+05:30)
+2026-06-15 12:46:17 | INFO     | src.scheduler        | ──── Cycle #4 | 12:46:17 IST ────
+2026-06-15 12:46:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 12:46:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:46:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:46:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:46:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:46:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:46:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:46:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:46:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:16:16
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:46:16+05:30
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:46:16+05:30
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:45:00+05:30
+2026-06-15 12:46:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:46:17 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,913.25 (vol=0, source=yfinance)
+2026-06-15 12:46:17 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 12:46:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:46:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:46:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:46:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:46:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:46:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:46:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:46:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:46:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:46:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:01:16
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:31:16+05:30
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:31:16+05:30
+2026-06-15 12:46:17 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:30:00+05:30
+2026-06-15 12:46:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:46:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:46:17 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,428.47 (vol=0, source=yfinance)
+2026-06-15 12:46:17 | DEBUG    | src.analyzer         | [^NSEI] Current: 23913.25 | Previous: 23901.15 | Change: +0.051% (RISING)
+2026-06-15 12:46:17 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23913.25
+2026-06-15 12:46:17 | DEBUG    | src.analyzer         | [^NSEI] Change 0.051% below threshold 0.500% — no alert
+2026-06-15 12:46:17 | DEBUG    | src.analyzer         | [^BSESN] Current: 76428.47 | Previous: 76447.16 | Change: -0.024% (FALLING)
+2026-06-15 12:46:17 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76428.47
+2026-06-15 12:46:17 | DEBUG    | src.analyzer         | [^BSESN] Change 0.024% below threshold 0.500% — no alert
+2026-06-15 12:46:17 | INFO     | src.scheduler        | ──── Cycle #4 complete | Sent: 0 | Skipped: 2 | Errors: 0 ────
+2026-06-15 12:46:17 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:51:17 IST)" executed successfully
+2026-06-15 12:51:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:51:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 12:56:17.184408+05:30 (in 299.992428 seconds)
+2026-06-15 12:51:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:56:17 IST)" (scheduled at 2026-06-15 12:51:17.184408+05:30)
+2026-06-15 12:51:17 | INFO     | src.scheduler        | ──── Cycle #5 | 12:51:17 IST ────
+2026-06-15 12:51:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 12:51:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:51:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:51:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:51:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:51:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:51:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:51:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:51:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:21:17
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:51:17+05:30
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:51:17+05:30
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:50:00+05:30
+2026-06-15 12:51:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:51:17 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,906.25 (vol=0, source=yfinance)
+2026-06-15 12:51:17 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 12:51:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:51:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:51:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:51:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:51:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:51:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:51:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:51:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:51:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:51:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:06:17
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:36:17+05:30
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:36:17+05:30
+2026-06-15 12:51:17 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:35:00+05:30
+2026-06-15 12:51:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:51:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:51:17 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,476.37 (vol=0, source=yfinance)
+2026-06-15 12:51:17 | DEBUG    | src.analyzer         | [^NSEI] Current: 23906.25 | Previous: 23913.25 | Change: -0.029% (FALLING)
+2026-06-15 12:51:17 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23906.25
+2026-06-15 12:51:17 | DEBUG    | src.analyzer         | [^NSEI] Change 0.029% below threshold 0.500% — no alert
+2026-06-15 12:51:17 | INFO     | src.levels           | [^NSEI] APPROACHING R2 (RESISTANCE) — 0.199% away
+2026-06-15 12:51:17 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Nifty 50 (NSE) near R2 (23,858.83) | Now: 23,906.25
+2026-06-15 12:51:20 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 12:51:20 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 12:51:20 | INFO     | src.scheduler        | [^NSEI] Level alert sent ✓ | APPROACHING R2
+2026-06-15 12:51:20 | DEBUG    | src.analyzer         | [^BSESN] Current: 76476.37 | Previous: 76428.47 | Change: +0.063% (RISING)
+2026-06-15 12:51:20 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76476.37
+2026-06-15 12:51:20 | DEBUG    | src.analyzer         | [^BSESN] Change 0.063% below threshold 0.500% — no alert
+2026-06-15 12:51:20 | INFO     | src.levels           | [^BSESN] APPROACHING R2 (RESISTANCE) — 0.164% away
+2026-06-15 12:51:20 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Sensex (BSE) near R2 (76,351.09) | Now: 76,476.37
+2026-06-15 12:51:23 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 12:51:23 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 12:51:23 | INFO     | src.scheduler        | [^BSESN] Level alert sent ✓ | APPROACHING R2
+2026-06-15 12:51:23 | INFO     | src.scheduler        | ──── Cycle #5 complete | Sent: 2 | Skipped: 2 | Errors: 0 ────
+2026-06-15 12:51:23 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 12:56:17 IST)" executed successfully
+2026-06-15 12:56:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 12:56:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 13:01:17.184408+05:30 (in 299.993789 seconds)
+2026-06-15 12:56:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:01:17 IST)" (scheduled at 2026-06-15 12:56:17.184408+05:30)
+2026-06-15 12:56:17 | INFO     | src.scheduler        | ──── Cycle #6 | 12:56:17 IST ────
+2026-06-15 12:56:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 12:56:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:56:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 12:56:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:56:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 12:56:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:56:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:56:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:56:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:26:17
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:56:17+05:30
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:56:17+05:30
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:55:00+05:30
+2026-06-15 12:56:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:56:17 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,909.40 (vol=0, source=yfinance)
+2026-06-15 12:56:17 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 12:56:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 12:56:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 12:56:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:56:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 12:56:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 12:56:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 12:56:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 12:56:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 12:56:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 12:56:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:11:15
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:41:15+05:30
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:41:15+05:30
+2026-06-15 12:56:17 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:40:00+05:30
+2026-06-15 12:56:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 12:56:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 12:56:17 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,435.85 (vol=0, source=yfinance)
+2026-06-15 12:56:17 | DEBUG    | src.analyzer         | [^NSEI] Current: 23909.40 | Previous: 23906.25 | Change: +0.013% (RISING)
+2026-06-15 12:56:17 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23909.40
+2026-06-15 12:56:17 | DEBUG    | src.analyzer         | [^NSEI] Change 0.013% below threshold 0.500% — no alert
+2026-06-15 12:56:17 | DEBUG    | src.analyzer         | [^BSESN] Current: 76435.85 | Previous: 76476.37 | Change: -0.053% (FALLING)
+2026-06-15 12:56:17 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76435.85
+2026-06-15 12:56:17 | DEBUG    | src.analyzer         | [^BSESN] Change 0.053% below threshold 0.500% — no alert
+2026-06-15 12:56:17 | INFO     | src.scheduler        | ──── Cycle #6 complete | Sent: 0 | Skipped: 2 | Errors: 0 ────
+2026-06-15 12:56:17 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:01:17 IST)" executed successfully
+2026-06-15 13:01:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 13:01:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 13:06:17.184408+05:30 (in 299.999301 seconds)
+2026-06-15 13:01:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:06:17 IST)" (scheduled at 2026-06-15 13:01:17.184408+05:30)
+2026-06-15 13:01:17 | INFO     | src.scheduler        | ──── Cycle #7 | 13:01:17 IST ────
+2026-06-15 13:01:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 13:01:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:01:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 13:01:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:01:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:01:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:01:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:01:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 13:01:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:01:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:01:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:01:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:01:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:01:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:01:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:01:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:01:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:01:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:01:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:01:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:01:27 | ERROR    | yfinance             | $^NSEI: possibly delisted; no price data found  (period=1d)
+2026-06-15 13:01:27 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:01:27 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:01:27 | WARNING  | src.fetcher          | [yfinance] Empty dataframe returned for ^NSEI
+2026-06-15 13:01:27 | WARNING  | src.fetcher          | Attempt 1/3 failed for ^NSEI: Provider returned no data for ^NSEI
+2026-06-15 13:01:27 | DEBUG    | src.fetcher          | Waiting 2s before retry…
+2026-06-15 13:01:29 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 2/3
+2026-06-15 13:01:29 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:01:29 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 13:01:29 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:01:29 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:01:29 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:01:29 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:01:29 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 13:01:29 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:01:29 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:01:29 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:01:29 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:01:29 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:01:29 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:01:29 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:01:29 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:01:29 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:01:29 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:01:29 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:01:29 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | response code=200
+2026-06-15 13:01:33 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 13:01:33 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:31:32
+2026-06-15 13:01:33 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:01:32+05:30
+2026-06-15 13:01:33 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:01:32+05:30
+2026-06-15 13:01:33 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:00:00+05:30
+2026-06-15 13:01:33 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:01:33 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,898.30 (vol=0, source=yfinance)
+2026-06-15 13:01:33 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 13:01:33 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:01:33 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 13:01:33 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:01:33 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:01:33 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 13:01:33 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:01:33 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:01:33 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:01:33 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:01:33 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:01:33 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:01:33 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:01:33 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:01:33 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:01:33 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:01:36 | DEBUG    | yfinance             | response code=200
+2026-06-15 13:01:36 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 13:01:36 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 13:01:36 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:16:34
+2026-06-15 13:01:36 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:46:34+05:30
+2026-06-15 13:01:36 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:46:34+05:30
+2026-06-15 13:01:36 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:45:00+05:30
+2026-06-15 13:01:36 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:01:36 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:01:36 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,469.24 (vol=0, source=yfinance)
+2026-06-15 13:01:36 | DEBUG    | src.analyzer         | [^NSEI] Current: 23898.30 | Previous: 23909.40 | Change: -0.046% (FALLING)
+2026-06-15 13:01:36 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23898.30
+2026-06-15 13:01:36 | DEBUG    | src.analyzer         | [^NSEI] Change 0.046% below threshold 0.500% — no alert
+2026-06-15 13:01:36 | DEBUG    | src.analyzer         | [^BSESN] Current: 76469.24 | Previous: 76435.85 | Change: +0.044% (RISING)
+2026-06-15 13:01:36 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76469.24
+2026-06-15 13:01:36 | DEBUG    | src.analyzer         | [^BSESN] Change 0.044% below threshold 0.500% — no alert
+2026-06-15 13:01:36 | INFO     | src.scheduler        | ──── Cycle #7 complete | Sent: 0 | Skipped: 2 | Errors: 0 ────
+2026-06-15 13:01:36 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:06:17 IST)" executed successfully
+2026-06-15 13:06:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 13:06:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 13:11:17.184408+05:30 (in 299.988037 seconds)
+2026-06-15 13:06:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:11:17 IST)" (scheduled at 2026-06-15 13:06:17.184408+05:30)
+2026-06-15 13:06:17 | INFO     | src.scheduler        | ──── Cycle #8 | 13:06:17 IST ────
+2026-06-15 13:06:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 13:06:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:06:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 13:06:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:06:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:06:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:06:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:06:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 13:06:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:06:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:06:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:06:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:06:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:06:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:06:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:06:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:06:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:06:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:06:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:06:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | response code=200
+2026-06-15 13:06:18 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:36:17
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:06:17+05:30
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:06:17+05:30
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:05:00+05:30
+2026-06-15 13:06:18 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:06:18 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,895.25 (vol=0, source=yfinance)
+2026-06-15 13:06:18 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 13:06:18 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:06:18 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 13:06:18 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:06:18 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 13:06:18 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:06:18 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:06:18 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:06:18 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:06:18 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | response code=200
+2026-06-15 13:06:18 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 13:06:18 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:21:17
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:51:17+05:30
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:51:17+05:30
+2026-06-15 13:06:18 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:50:00+05:30
+2026-06-15 13:06:18 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:06:18 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:06:18 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,452.52 (vol=0, source=yfinance)
+2026-06-15 13:06:18 | DEBUG    | src.analyzer         | [^NSEI] Current: 23895.25 | Previous: 23898.30 | Change: -0.013% (FALLING)
+2026-06-15 13:06:18 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23895.25
+2026-06-15 13:06:18 | DEBUG    | src.analyzer         | [^NSEI] Change 0.013% below threshold 0.500% — no alert
+2026-06-15 13:06:18 | INFO     | src.levels           | [^NSEI] APPROACHING R2 (RESISTANCE) — 0.153% away
+2026-06-15 13:06:18 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Nifty 50 (NSE) near R2 (23,858.83) | Now: 23,895.25
+2026-06-15 13:06:21 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 13:06:21 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 13:06:21 | INFO     | src.scheduler        | [^NSEI] Level alert sent ✓ | APPROACHING R2
+2026-06-15 13:06:21 | DEBUG    | src.analyzer         | [^BSESN] Current: 76452.52 | Previous: 76469.24 | Change: -0.022% (FALLING)
+2026-06-15 13:06:21 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76452.52
+2026-06-15 13:06:21 | DEBUG    | src.analyzer         | [^BSESN] Change 0.022% below threshold 0.500% — no alert
+2026-06-15 13:06:21 | INFO     | src.levels           | [^BSESN] APPROACHING R2 (RESISTANCE) — 0.133% away
+2026-06-15 13:06:21 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Sensex (BSE) near R2 (76,351.09) | Now: 76,452.52
+2026-06-15 13:06:24 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 13:06:24 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 13:06:24 | INFO     | src.scheduler        | [^BSESN] Level alert sent ✓ | APPROACHING R2
+2026-06-15 13:06:24 | INFO     | src.scheduler        | ──── Cycle #8 complete | Sent: 2 | Skipped: 2 | Errors: 0 ────
+2026-06-15 13:06:24 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:11:17 IST)" executed successfully
+2026-06-15 13:11:17 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 13:11:17 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 13:16:17.184408+05:30 (in 299.994094 seconds)
+2026-06-15 13:11:17 | INFO     | apscheduler.executors.default | Running job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:16:17 IST)" (scheduled at 2026-06-15 13:11:17.184408+05:30)
+2026-06-15 13:11:17 | INFO     | src.scheduler        | ──── Cycle #9 | 13:11:17 IST ────
+2026-06-15 13:11:17 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 13:11:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:11:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 13:11:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:11:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 13:11:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:11:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:11:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 13:11:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:41:16
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:11:16+05:30
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:11:16+05:30
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 13:10:00+05:30
+2026-06-15 13:11:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:11:17 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,929.80 (vol=0, source=yfinance)
+2026-06-15 13:11:17 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 13:11:17 | DEBUG    | yfinance             | Entering history()
+2026-06-15 13:11:17 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 13:11:17 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:11:17 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 13:11:17 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 13:11:17 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 13:11:17 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 13:11:17 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | response code=200
+2026-06-15 13:11:17 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 13:11:17 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 07:26:17
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:56:17+05:30
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:56:17+05:30
+2026-06-15 13:11:17 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 12:55:00+05:30
+2026-06-15 13:11:17 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 13:11:17 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 13:11:17 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,470.82 (vol=0, source=yfinance)
+2026-06-15 13:11:17 | DEBUG    | src.analyzer         | [^NSEI] Current: 23929.80 | Previous: 23895.25 | Change: +0.145% (RISING)
+2026-06-15 13:11:17 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23929.80
+2026-06-15 13:11:17 | DEBUG    | src.analyzer         | [^NSEI] Change 0.145% below threshold 0.500% — no alert
+2026-06-15 13:11:17 | DEBUG    | src.analyzer         | [^BSESN] Current: 76470.82 | Previous: 76452.52 | Change: +0.024% (RISING)
+2026-06-15 13:11:17 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76470.82
+2026-06-15 13:11:17 | DEBUG    | src.analyzer         | [^BSESN] Change 0.024% below threshold 0.500% — no alert
+2026-06-15 13:11:17 | INFO     | src.scheduler        | ──── Cycle #9 complete | Sent: 0 | Skipped: 2 | Errors: 0 ────
+2026-06-15 13:11:17 | INFO     | apscheduler.executors.default | Job "Market price poll (trigger: interval[0:05:00], next run at: 2026-06-15 13:16:17 IST)" executed successfully
+2026-06-15 14:33:00 | INFO     | __main__             | =======================================================
+2026-06-15 14:33:00 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 14:33:00 | INFO     | __main__             | =======================================================
+2026-06-15 14:33:00 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 14:33:00 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 14:33:00 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:33:00 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 14:33:00 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 14:33:00 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 14:33:00 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 14:33:00 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 14:33:00 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 14:33:00 | INFO     | __main__             | =======================================================
+2026-06-15 14:33:01 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 14:33:01 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 14:36:07 | INFO     | __main__             | =======================================================
+2026-06-15 14:36:07 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 14:36:07 | INFO     | __main__             | =======================================================
+2026-06-15 14:36:07 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 14:36:07 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 14:36:07 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:36:07 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 14:36:07 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 14:36:07 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 14:36:07 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 14:36:07 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 14:36:07 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 14:36:07 | INFO     | __main__             | =======================================================
+2026-06-15 14:36:08 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 14:36:08 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 14:36:09 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 14:36:09 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.telegram.org:443
+2026-06-15 14:36:11 | DEBUG    | urllib3.connectionpool | https://api.telegram.org:443 "POST /bot78858658101:AAHDG82a01fnTenUc7bF3b_RWJ0iVtS49-M/sendMessage HTTP/1.1" 401 58
+2026-06-15 14:36:11 | ERROR    | src.telegram_notifier | Telegram API error: Unauthorized
+2026-06-15 14:36:11 | ERROR    | __main__             | ❌ Telegram test FAILED — check token and chat ID in .env
+2026-06-15 14:38:10 | INFO     | __main__             | =======================================================
+2026-06-15 14:38:10 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 14:38:10 | INFO     | __main__             | =======================================================
+2026-06-15 14:38:10 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 14:38:10 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 14:38:10 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:38:10 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 14:38:10 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 14:38:10 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 14:38:10 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 14:38:10 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 14:38:10 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 14:38:10 | INFO     | __main__             | =======================================================
+2026-06-15 14:38:10 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 14:38:10 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 14:38:11 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 14:38:11 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.telegram.org:443
+2026-06-15 14:38:15 | DEBUG    | urllib3.connectionpool | https://api.telegram.org:443 "POST /bot8858658101:AAHDG82a01fnTenUc7bF3b_RWJ0iVtS49-M/sendMessage HTTP/1.1" 200 351
+2026-06-15 14:38:15 | INFO     | src.telegram_notifier | Telegram message sent to chat 5913752611
+2026-06-15 14:38:15 | INFO     | __main__             | ✅ Telegram test PASSED — check your Telegram app
+2026-06-15 14:38:36 | INFO     | __main__             | =======================================================
+2026-06-15 14:38:36 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 14:38:36 | INFO     | __main__             | =======================================================
+2026-06-15 14:38:36 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 14:38:36 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 14:38:36 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:38:36 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 14:38:36 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 14:38:36 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 14:38:36 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 14:38:36 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 14:38:36 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 14:38:36 | INFO     | __main__             | =======================================================
+2026-06-15 14:38:36 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 14:38:37 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 14:38:37 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 14:38:37 | DEBUG    | tzlocal              | Looking up time zone info from registry
+2026-06-15 14:38:37 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-15 14:38:37 | INFO     | src.scheduler        | =======================================================
+2026-06-15 14:38:37 | INFO     | src.scheduler        |   Scheduler started
+2026-06-15 14:38:37 | INFO     | src.scheduler        |   Polling every : 300 seconds (5 min)
+2026-06-15 14:38:37 | INFO     | src.scheduler        |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:38:37 | INFO     | src.scheduler        |   Threshold     : 0.50%
+2026-06-15 14:38:37 | INFO     | src.scheduler        |   Cooldown      : 30 min
+2026-06-15 14:38:37 | INFO     | src.scheduler        |   Market hours  : 09:15 – 15:30 IST (Mon–Fri)
+2026-06-15 14:38:37 | INFO     | src.scheduler        | =======================================================
+2026-06-15 14:38:37 | INFO     | src.scheduler        | ──── Cycle #1 | 14:38:37 IST ────
+2026-06-15 14:38:37 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:38:37 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_tz_kv" ("key" VARCHAR(255) NOT NULL PRIMARY KEY, "value" VARCHAR(255)) WITHOUT ROWID', [])
+2026-06-15 14:38:37 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 14:38:37 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:38:37 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:37 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:38:37 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:38:37 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 14:38:37 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:37 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:38:37 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:38:37 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:38:37 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:38:37 | DEBUG    | yfinance             |        Entering _load_cookie_curlCffi()
+2026-06-15 14:38:37 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_cookieschema" ("strategy" VARCHAR(255) NOT NULL PRIMARY KEY, "fetch_date" DATETIME NOT NULL, "cookie_bytes" BLOB NOT NULL) WITHOUT ROWID', [])
+2026-06-15 14:38:37 | DEBUG    | peewee               | ('SELECT "t1"."strategy", "t1"."fetch_date", "t1"."cookie_bytes" FROM "_cookieschema" AS "t1" WHERE ("t1"."strategy" = ?) LIMIT ? OFFSET ?', ['curlCffi', 1, 0])
+2026-06-15 14:38:37 | DEBUG    | yfinance             |        Exiting _load_cookie_curlCffi()
+2026-06-15 14:38:37 | DEBUG    | yfinance             | reusing persistent cookie
+2026-06-15 14:38:37 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:38:37 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:38:37 | DEBUG    | yfinance             |        Entering _get_cookie_basic()
+2026-06-15 14:38:37 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:38:37 | DEBUG    | yfinance             |        Exiting _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | crumb = 'tDYzXCmPkny'
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:38:38 | INFO     | src.levels           | [^NSEI] Pivot levels calculated: PP=23527.38 R1=23740.87 R2=23858.83 R3=24072.32 S1=23409.42 S2=23195.93 S3=23077.97
+2026-06-15 14:38:38 | INFO     | src.scheduler        | [^NSEI] Pivot levels ready: PP=23527.38  R1=23740.87  R2=23858.83  S1=23409.42  S2=23195.93
+2026-06-15 14:38:38 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:38:38 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 14:38:38 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 14:38:38 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:38:38 | INFO     | src.levels           | [^BSESN] Pivot levels calculated: PP=75196.46 R1=75939.52 R2=76351.09 R3=77094.15 S1=74784.89 S2=74041.82 S3=73630.26
+2026-06-15 14:38:38 | INFO     | src.scheduler        | [^BSESN] Pivot levels ready: PP=75196.46  R1=75939.52  R2=76351.09  S1=74784.89  S2=74041.82
+2026-06-15 14:38:38 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 14:38:38 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:38:38 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 14:38:38 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 14:38:38 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 09:08:37
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:38:37+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:38:37+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:35:00+05:30
+2026-06-15 14:38:38 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:38:38 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,929.30 (vol=0, source=yfinance)
+2026-06-15 14:38:38 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 14:38:38 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:38:38 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 14:38:38 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 14:38:38 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 14:38:38 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:38:38 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:38:38 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:38:38 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:38:39 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 08:53:37
+2026-06-15 14:38:39 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:23:37+05:30
+2026-06-15 14:38:39 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:23:37+05:30
+2026-06-15 14:38:39 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:20:00+05:30
+2026-06-15 14:38:39 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:38:39 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:38:39 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,432.08 (vol=0, source=yfinance)
+2026-06-15 14:38:39 | DEBUG    | src.analyzer         | [^NSEI] Current: 23929.30 | Previous: 23929.80 | Change: -0.002% (FALLING)
+2026-06-15 14:38:39 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23929.30
+2026-06-15 14:38:39 | DEBUG    | src.analyzer         | [^NSEI] Change 0.002% below threshold 0.500% — no alert
+2026-06-15 14:38:39 | INFO     | src.levels           | [^NSEI] APPROACHING R2 (RESISTANCE) — 0.295% away
+2026-06-15 14:38:39 | ERROR    | src.scheduler        | [^NSEI] Unexpected error: 'EmailNotifier' object has no attribute 'send_level_alert'
+Traceback (most recent call last):
+  File "D:\stock alert system\src\scheduler.py", line 228, in _run_cycle
+    lvl_result = self._notifier.send_level_alert(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'EmailNotifier' object has no attribute 'send_level_alert'
+2026-06-15 14:51:54 | INFO     | __main__             | =======================================================
+2026-06-15 14:51:54 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 14:51:54 | INFO     | __main__             | =======================================================
+2026-06-15 14:51:54 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 14:51:54 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 14:51:54 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:51:54 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 14:51:54 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 14:51:54 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 14:51:54 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 14:51:54 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 14:51:54 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 14:51:54 | INFO     | __main__             | =======================================================
+2026-06-15 14:51:55 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 14:51:56 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 14:51:56 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 14:51:56 | DEBUG    | tzlocal              | Looking up time zone info from registry
+2026-06-15 14:51:56 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-15 14:51:56 | INFO     | src.scheduler        | =======================================================
+2026-06-15 14:51:56 | INFO     | src.scheduler        |   Scheduler started
+2026-06-15 14:51:56 | INFO     | src.scheduler        |   Polling every : 300 seconds (5 min)
+2026-06-15 14:51:56 | INFO     | src.scheduler        |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 14:51:56 | INFO     | src.scheduler        |   Threshold     : 0.50%
+2026-06-15 14:51:56 | INFO     | src.scheduler        |   Cooldown      : 30 min
+2026-06-15 14:51:56 | INFO     | src.scheduler        |   Market hours  : 09:15 – 15:30 IST (Mon–Fri)
+2026-06-15 14:51:56 | INFO     | src.scheduler        | =======================================================
+2026-06-15 14:51:56 | INFO     | src.scheduler        | ──── Cycle #1 | 14:51:56 IST ────
+2026-06-15 14:51:56 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:51:56 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_tz_kv" ("key" VARCHAR(255) NOT NULL PRIMARY KEY, "value" VARCHAR(255)) WITHOUT ROWID', [])
+2026-06-15 14:51:56 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 14:51:56 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:56 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 14:51:56 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:56 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:51:56 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |        Entering _load_cookie_curlCffi()
+2026-06-15 14:51:56 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_cookieschema" ("strategy" VARCHAR(255) NOT NULL PRIMARY KEY, "fetch_date" DATETIME NOT NULL, "cookie_bytes" BLOB NOT NULL) WITHOUT ROWID', [])
+2026-06-15 14:51:56 | DEBUG    | peewee               | ('SELECT "t1"."strategy", "t1"."fetch_date", "t1"."cookie_bytes" FROM "_cookieschema" AS "t1" WHERE ("t1"."strategy" = ?) LIMIT ? OFFSET ?', ['curlCffi', 1, 0])
+2026-06-15 14:51:56 | DEBUG    | yfinance             |        Exiting _load_cookie_curlCffi()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | reusing persistent cookie
+2026-06-15 14:51:56 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |        Entering _get_cookie_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:51:56 | DEBUG    | yfinance             |        Exiting _get_cookie_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | crumb = 'tDYzXCmPkny'
+2026-06-15 14:51:56 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:51:56 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:51:56 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:51:56 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:51:57 | INFO     | src.levels           | [^NSEI] Pivot levels calculated: PP=23527.38 R1=23740.87 R2=23858.83 R3=24072.32 S1=23409.42 S2=23195.93 S3=23077.97
+2026-06-15 14:51:57 | INFO     | src.scheduler        | [^NSEI] Pivot levels ready: PP=23527.38  R1=23740.87  R2=23858.83  S1=23409.42  S2=23195.93
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:51:57 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:57 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 14:51:57 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:57 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:51:57 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:51:57 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:51:57 | INFO     | src.levels           | [^BSESN] Pivot levels calculated: PP=75196.46 R1=75939.52 R2=76351.09 R3=77094.15 S1=74784.89 S2=74041.82 S3=73630.26
+2026-06-15 14:51:57 | INFO     | src.scheduler        | [^BSESN] Pivot levels ready: PP=75196.46  R1=75939.52  R2=76351.09  S1=74784.89  S2=74041.82
+2026-06-15 14:51:57 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:51:57 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:57 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 14:51:57 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:57 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:51:57 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:51:57 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 09:21:57
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:51:57+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:51:57+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:50:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:51:57 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,894.65 (vol=0, source=yfinance)
+2026-06-15 14:51:57 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Entering history()
+2026-06-15 14:51:57 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:57 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 14:51:57 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 14:51:57 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 14:51:57 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 14:51:57 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | response code=200
+2026-06-15 14:51:57 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 14:51:57 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 09:06:56
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:36:56+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:36:56+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 14:35:00+05:30
+2026-06-15 14:51:57 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 14:51:57 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 14:51:57 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,552.37 (vol=0, source=yfinance)
+2026-06-15 14:51:57 | DEBUG    | src.analyzer         | [^NSEI] Current: 23894.65 | Previous: 23929.30 | Change: -0.145% (FALLING)
+2026-06-15 14:51:57 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23894.65
+2026-06-15 14:51:57 | DEBUG    | src.analyzer         | [^NSEI] Change 0.145% below threshold 0.500% — no alert
+2026-06-15 14:51:57 | INFO     | src.levels           | [^NSEI] APPROACHING R2 (RESISTANCE) — 0.150% away
+2026-06-15 14:51:57 | ERROR    | src.scheduler        | [^NSEI] Unexpected error: 'EmailNotifier' object has no attribute 'send_level_alert'
+Traceback (most recent call last):
+  File "D:\stock alert system\src\scheduler.py", line 228, in _run_cycle
+    lvl_result = self._notifier.send_level_alert(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'EmailNotifier' object has no attribute 'send_level_alert'
+2026-06-15 15:27:36 | INFO     | __main__             | =======================================================
+2026-06-15 15:27:36 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:27:36 | INFO     | __main__             | =======================================================
+2026-06-15 15:27:36 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:27:36 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:27:36 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:27:36 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:27:36 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:27:36 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:27:36 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:27:36 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:27:36 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:27:36 | INFO     | __main__             | =======================================================
+2026-06-15 15:27:37 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:27:37 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 15:27:38 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:27:38 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.telegram.org:443
+2026-06-15 15:27:39 | DEBUG    | urllib3.connectionpool | https://api.telegram.org:443 "POST /bot8858658101:AAHDG82a01fnTenUc7bF3b_RWJ0iVtS49-M/sendMessage HTTP/1.1" 200 351
+2026-06-15 15:27:39 | INFO     | src.telegram_notifier | Telegram message sent to chat 5913752611
+2026-06-15 15:27:39 | INFO     | __main__             | ✅ Telegram test PASSED — check your Telegram app
+2026-06-15 15:28:13 | INFO     | __main__             | =======================================================
+2026-06-15 15:28:13 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:28:13 | INFO     | __main__             | =======================================================
+2026-06-15 15:28:13 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:28:13 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:28:13 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:28:13 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:28:13 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:28:13 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:28:13 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:28:13 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:28:13 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:28:13 | INFO     | __main__             | =======================================================
+2026-06-15 15:28:13 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:28:14 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:28:14 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 15:28:14 | DEBUG    | tzlocal              | Looking up time zone info from registry
+2026-06-15 15:28:14 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-15 15:28:14 | INFO     | src.scheduler        | =======================================================
+2026-06-15 15:28:14 | INFO     | src.scheduler        |   Scheduler started
+2026-06-15 15:28:14 | INFO     | src.scheduler        |   Polling every : 300 seconds (5 min)
+2026-06-15 15:28:14 | INFO     | src.scheduler        |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:28:14 | INFO     | src.scheduler        |   Threshold     : 0.50%
+2026-06-15 15:28:14 | INFO     | src.scheduler        |   Cooldown      : 30 min
+2026-06-15 15:28:14 | INFO     | src.scheduler        |   Market hours  : 09:15 - 15:30 IST (Mon-Fri)
+2026-06-15 15:28:14 | INFO     | src.scheduler        | =======================================================
+2026-06-15 15:28:14 | INFO     | src.scheduler        | ---- Cycle #1 | 15:28:14 IST ----
+2026-06-15 15:28:14 | DEBUG    | yfinance             | Entering history()
+2026-06-15 15:28:14 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_tz_kv" ("key" VARCHAR(255) NOT NULL PRIMARY KEY, "value" VARCHAR(255)) WITHOUT ROWID', [])
+2026-06-15 15:28:14 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 15:28:14 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 15:28:14 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:14 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 15:28:14 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 15:28:14 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 15:28:14 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:14 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 15:28:14 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 15:28:14 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 15:28:14 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 15:28:14 | DEBUG    | yfinance             |        Entering _load_cookie_curlCffi()
+2026-06-15 15:28:14 | DEBUG    | peewee               | ('CREATE TABLE IF NOT EXISTS "_cookieschema" ("strategy" VARCHAR(255) NOT NULL PRIMARY KEY, "fetch_date" DATETIME NOT NULL, "cookie_bytes" BLOB NOT NULL) WITHOUT ROWID', [])
+2026-06-15 15:28:14 | DEBUG    | peewee               | ('SELECT "t1"."strategy", "t1"."fetch_date", "t1"."cookie_bytes" FROM "_cookieschema" AS "t1" WHERE ("t1"."strategy" = ?) LIMIT ? OFFSET ?', ['curlCffi', 1, 0])
+2026-06-15 15:28:14 | DEBUG    | yfinance             |        Exiting _load_cookie_curlCffi()
+2026-06-15 15:28:14 | DEBUG    | yfinance             | reusing persistent cookie
+2026-06-15 15:28:14 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 15:28:14 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 15:28:14 | DEBUG    | yfinance             |        Entering _get_cookie_basic()
+2026-06-15 15:28:14 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 15:28:14 | DEBUG    | yfinance             |        Exiting _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | crumb = 'tDYzXCmPkny'
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | response code=200
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 15:28:15 | INFO     | src.levels           | [^NSEI] Pivot levels calculated: PP=23527.38 R1=23740.87 R2=23858.83 R3=24072.32 S1=23409.42 S2=23195.93 S3=23077.97
+2026-06-15 15:28:15 | INFO     | src.scheduler        | [^NSEI] Pivot levels: PP=23527.38 R1=23740.87 R2=23858.83 S1=23409.42 S2=23195.93
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Entering history()
+2026-06-15 15:28:15 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 15:28:15 | DEBUG    | yfinance             | params={'range': '5d', 'interval': '1d', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | response code=200
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-09 03:45:00 -> 2026-06-15 03:45:00
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-09 09:15:00+05:30 -> 2026-06-15 09:15:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-09 00:00:00+05:30 -> 2026-06-15 00:00:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 15:28:15 | INFO     | src.levels           | [^BSESN] Pivot levels calculated: PP=75196.46 R1=75939.52 R2=76351.09 R3=77094.15 S1=74784.89 S2=74041.82 S3=73630.26
+2026-06-15 15:28:15 | INFO     | src.scheduler        | [^BSESN] Pivot levels: PP=75196.46 R1=75939.52 R2=76351.09 S1=74784.89 S2=74041.82
+2026-06-15 15:28:15 | DEBUG    | src.fetcher          | Fetching ^NSEI — attempt 1/3
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Entering history()
+2026-06-15 15:28:15 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^NSEI', 1, 0])
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^NSEI
+2026-06-15 15:28:15 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | response code=200
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 09:58:15
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 15:28:15+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 15:28:15+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^NSEI: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 15:25:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 15:28:15 | INFO     | src.fetcher          | Fetched: ^NSEI: 23,851.05 (vol=0, source=yfinance)
+2026-06-15 15:28:15 | DEBUG    | src.fetcher          | Fetching ^BSESN — attempt 1/3
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Entering history()
+2026-06-15 15:28:15 | DEBUG    | peewee               | ('SELECT "t1"."key", "t1"."value" FROM "_tz_kv" AS "t1" WHERE ("t1"."key" = ?) LIMIT ? OFFSET ?', ['^BSESN', 1, 0])
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Entering history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: Yahoo GET parameters: {'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Entering get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Entering _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | url=https://query2.finance.yahoo.com/v8/finance/chart/^BSESN
+2026-06-15 15:28:15 | DEBUG    | yfinance             | params={'range': '1d', 'interval': '5m', 'includePrePost': False, 'events': 'div,splits,capitalGains'}
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Entering _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | cookie_mode = 'basic'
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Entering _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Entering _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | reusing cookie
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_cookie_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Entering _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | reusing crumb
+2026-06-15 15:28:15 | DEBUG    | yfinance             |       Exiting _get_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |      Exiting _get_cookie_and_crumb_basic()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |     Exiting _get_cookie_and_crumb()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | response code=200
+2026-06-15 15:28:15 | DEBUG    | yfinance             |    Exiting _make_request()
+2026-06-15 15:28:15 | DEBUG    | yfinance             |   Exiting get()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: yfinance received OHLC data: 2026-06-15 03:45:00 -> 2026-06-15 09:43:14
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: OHLC after cleaning: 2026-06-15 09:15:00+05:30 -> 2026-06-15 15:13:14+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: OHLC after combining events: 2026-06-15 09:15:00+05:30 -> 2026-06-15 15:13:14+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             | ^BSESN: yfinance returning OHLC: 2026-06-15 09:15:00+05:30 -> 2026-06-15 15:10:00+05:30
+2026-06-15 15:28:15 | DEBUG    | yfinance             |  Exiting history()
+2026-06-15 15:28:15 | DEBUG    | yfinance             | Exiting history()
+2026-06-15 15:28:15 | INFO     | src.fetcher          | Fetched: ^BSESN: 76,155.30 (vol=0, source=yfinance)
+2026-06-15 15:28:15 | DEBUG    | src.analyzer         | [^NSEI] Current: 23851.05 | Previous: 23894.65 | Change: -0.182% (FALLING)
+2026-06-15 15:28:15 | DEBUG    | src.database         | Price snapshot: ^NSEI = 23851.05
+2026-06-15 15:28:15 | DEBUG    | src.analyzer         | [^NSEI] Change 0.182% below threshold 0.500% — no alert
+2026-06-15 15:28:15 | INFO     | src.levels           | [^NSEI] APPROACHING R2 (RESISTANCE) — 0.033% away
+2026-06-15 15:28:15 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Nifty 50 (NSE) near R2 (23,858.83) | Now: 23,851.05
+2026-06-15 15:28:19 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 15:28:19 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 15:28:19 | INFO     | src.scheduler        | [^NSEI] Level alert sent | APPROACHING R2
+2026-06-15 15:28:19 | DEBUG    | src.analyzer         | [^BSESN] Current: 76155.30 | Previous: 76470.82 | Change: -0.413% (FALLING)
+2026-06-15 15:28:19 | DEBUG    | src.database         | Price snapshot: ^BSESN = 76155.30
+2026-06-15 15:28:19 | DEBUG    | src.analyzer         | [^BSESN] Change 0.413% below threshold 0.500% — no alert
+2026-06-15 15:28:19 | INFO     | src.levels           | [^BSESN] APPROACHING R2 (RESISTANCE) — 0.256% away
+2026-06-15 15:28:19 | INFO     | src.levels           | [^BSESN] APPROACHING R1 (RESISTANCE) — 0.284% away
+2026-06-15 15:28:19 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Sensex (BSE) near R2 (76,351.09) | Now: 76,155.30
+2026-06-15 15:28:21 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 15:28:21 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 15:28:21 | INFO     | src.scheduler        | [^BSESN] Level alert sent | APPROACHING R2
+2026-06-15 15:28:21 | INFO     | src.notifier         | Sending level alert to workofc8@gmail.com | Subject: [⚠️ APPROACHING RESISTANCE] Sensex (BSE) near R1 (75,939.52) | Now: 76,155.30
+2026-06-15 15:28:24 | DEBUG    | src.notifier         | SMTP send successful: workofc8@gmail.com → workofc8@gmail.com
+2026-06-15 15:28:24 | INFO     | src.notifier         | Level alert sent successfully.
+2026-06-15 15:28:24 | INFO     | src.scheduler        | [^BSESN] Level alert sent | APPROACHING R1
+2026-06-15 15:28:24 | INFO     | src.scheduler        | ---- Cycle #1 complete | Sent: 3 | Skipped: 2 | Errors: 0 ----
+2026-06-15 15:28:24 | INFO     | apscheduler.scheduler | Added job "Market price poll" to job store "default"
+2026-06-15 15:28:24 | INFO     | apscheduler.scheduler | Scheduler started
+2026-06-15 15:28:24 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 15:28:24 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 15:33:14.266179+05:30 (in 289.394824 seconds)
+2026-06-15 15:31:58 | INFO     | __main__             | =======================================================
+2026-06-15 15:31:58 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:31:58 | INFO     | __main__             | =======================================================
+2026-06-15 15:31:58 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:31:58 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:31:58 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:31:58 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:31:58 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:31:58 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:31:58 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:31:58 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:31:58 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:31:58 | INFO     | __main__             | =======================================================
+2026-06-15 15:31:58 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:31:58 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 15:31:59 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:31:59 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.telegram.org:443
+2026-06-15 15:32:00 | DEBUG    | urllib3.connectionpool | https://api.telegram.org:443 "POST /bot8858658101:AAHDG82a01fnTenUc7bF3b_RWJ0iVtS49-M/sendMessage HTTP/1.1" 200 351
+2026-06-15 15:32:00 | INFO     | src.telegram_notifier | Telegram message sent to chat 5913752611
+2026-06-15 15:32:00 | INFO     | __main__             | ✅ Telegram test PASSED — check your Telegram app
+2026-06-15 15:32:44 | INFO     | __main__             | =======================================================
+2026-06-15 15:32:44 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:32:44 | INFO     | __main__             | =======================================================
+2026-06-15 15:32:44 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:32:44 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:32:44 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:32:44 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:32:44 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:32:44 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:32:44 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:32:44 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:32:44 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:32:44 | INFO     | __main__             | =======================================================
+2026-06-15 15:32:44 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:32:45 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:32:45 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 15:32:45 | INFO     | __main__             | --once flag set: running single cycle then exiting
+2026-06-15 15:32:45 | INFO     | src.scheduler        | Cycle #1 | 15:32 IST | Market CLOSED — outside hours
+2026-06-15 15:32:45 | INFO     | __main__             | Single cycle complete. Exiting.
+2026-06-15 15:34:21 | INFO     | __main__             | =======================================================
+2026-06-15 15:34:21 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:34:21 | INFO     | __main__             | =======================================================
+2026-06-15 15:34:21 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:34:21 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:34:21 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:34:21 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:34:21 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:34:21 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:34:21 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:34:21 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:34:21 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:34:21 | INFO     | __main__             | =======================================================
+2026-06-15 15:34:22 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:34:22 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 15:34:22 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:34:22 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.telegram.org:443
+2026-06-15 15:34:23 | DEBUG    | urllib3.connectionpool | https://api.telegram.org:443 "POST /bot8858658101:AAHDG82a01fnTenUc7bF3b_RWJ0iVtS49-M/sendMessage HTTP/1.1" 200 351
+2026-06-15 15:34:23 | INFO     | src.telegram_notifier | Telegram message sent to chat 5913752611
+2026-06-15 15:34:23 | INFO     | __main__             | ✅ Telegram test PASSED — check your Telegram app
+2026-06-15 15:34:47 | INFO     | __main__             | =======================================================
+2026-06-15 15:34:47 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:34:47 | INFO     | __main__             | =======================================================
+2026-06-15 15:34:47 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:34:47 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:34:47 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:34:47 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:34:47 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:34:47 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:34:47 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:34:47 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:34:47 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:34:47 | INFO     | __main__             | =======================================================
+2026-06-15 15:34:47 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:34:48 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:34:48 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 15:34:48 | DEBUG    | tzlocal              | Looking up time zone info from registry
+2026-06-15 15:34:48 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-15 15:34:48 | INFO     | src.scheduler        | =======================================================
+2026-06-15 15:34:48 | INFO     | src.scheduler        |   Scheduler started
+2026-06-15 15:34:48 | INFO     | src.scheduler        |   Polling every : 300 seconds (5 min)
+2026-06-15 15:34:48 | INFO     | src.scheduler        |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:34:48 | INFO     | src.scheduler        |   Threshold     : 0.50%
+2026-06-15 15:34:48 | INFO     | src.scheduler        |   Cooldown      : 30 min
+2026-06-15 15:34:48 | INFO     | src.scheduler        |   Market hours  : 09:15 - 15:30 IST (Mon-Fri)
+2026-06-15 15:34:48 | INFO     | src.scheduler        | =======================================================
+2026-06-15 15:34:48 | INFO     | src.scheduler        | Cycle #1 | 15:34 IST | Market CLOSED — outside hours
+2026-06-15 15:34:48 | INFO     | apscheduler.scheduler | Added job "Market price poll" to job store "default"
+2026-06-15 15:34:48 | INFO     | apscheduler.scheduler | Scheduler started
+2026-06-15 15:34:48 | DEBUG    | apscheduler.scheduler | Looking for jobs to run
+2026-06-15 15:34:48 | DEBUG    | apscheduler.scheduler | Next wakeup is due at 2026-06-15 15:39:48.404501+05:30 (in 299.997058 seconds)
+2026-06-15 15:36:26 | INFO     | __main__             | =======================================================
+2026-06-15 15:36:26 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:36:26 | INFO     | __main__             | =======================================================
+2026-06-15 15:36:26 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:36:26 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:36:26 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:36:26 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:36:26 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:36:26 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:36:26 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:36:26 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:36:26 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:36:26 | INFO     | __main__             | =======================================================
+2026-06-15 15:36:27 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:36:27 | INFO     | __main__             | Testing Telegram connection...
+2026-06-15 15:36:28 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:36:28 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.telegram.org:443
+2026-06-15 15:36:29 | DEBUG    | urllib3.connectionpool | https://api.telegram.org:443 "POST /bot8858658101:AAHDG82a01fnTenUc7bF3b_RWJ0iVtS49-M/sendMessage HTTP/1.1" 200 351
+2026-06-15 15:36:29 | INFO     | src.telegram_notifier | Telegram message sent to chat 5913752611
+2026-06-15 15:36:29 | INFO     | __main__             | ✅ Telegram test PASSED — check your Telegram app
+2026-06-15 15:36:59 | INFO     | __main__             | =======================================================
+2026-06-15 15:36:59 | INFO     | __main__             |   Stock Alert Automation System  v1.0.0
+2026-06-15 15:36:59 | INFO     | __main__             | =======================================================
+2026-06-15 15:36:59 | INFO     | __main__             |   Sender email  : workofc8@gmail.com
+2026-06-15 15:36:59 | INFO     | __main__             |   Alert sent to : workofc8@gmail.com
+2026-06-15 15:36:59 | INFO     | __main__             |   Watchlist     : ['^NSEI', '^BSESN']
+2026-06-15 15:36:59 | INFO     | __main__             |   Threshold     : 0.50%
+2026-06-15 15:36:59 | INFO     | __main__             |   Cooldown      : 30 min
+2026-06-15 15:36:59 | INFO     | __main__             |   Poll interval : 300s
+2026-06-15 15:36:59 | INFO     | __main__             |   Market hours  : 09:15 – 15:30 IST
+2026-06-15 15:36:59 | INFO     | __main__             |   Database      : data/alerts.db
+2026-06-15 15:36:59 | INFO     | __main__             |   Log file      : logs/stock_alert.log
+2026-06-15 15:36:59 | INFO     | __main__             | =======================================================
+2026-06-15 15:36:59 | INFO     | src.database         | Database initialised at: data\alerts.db
+2026-06-15 15:37:00 | INFO     | src.telegram_notifier | TelegramNotifier initialised — chat_id: 5913752611
+2026-06-15 15:37:00 | DEBUG    | src.calendar         | Holiday calendar loaded: 16 holidays across 1 year(s)
+2026-06-15 15:37:00 | INFO     | __main__             | --once flag set: running single cycle then exiting
+2026-06-15 15:37:00 | INFO     | src.scheduler        | Cycle #1 | 15:37 IST | Market CLOSED — outside hours
+2026-06-15 15:37:00 | INFO     | __main__             | Single cycle complete. Exiting.
