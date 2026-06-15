@@ -29,6 +29,9 @@ from .analyzer import MarketAnalyzer
 from .config import get_settings
 from .fetcher import MarketDataFetcher
 from .notifier import EmailNotifier
+from .levels import LevelMonitor, PivotCalculator
+from .calendar import MarketCalendar
+
 
 logger = logging.getLogger(__name__)
 
@@ -58,6 +61,10 @@ class StockAlertScheduler:
         self._notifier  = EmailNotifier()
         self._scheduler = BlockingScheduler(timezone=str(IST))
         self._cycle     = 0
+        self._calendar      = MarketCalendar()
+        self._pivot_calc    = PivotCalculator()
+        self._level_monitor = LevelMonitor()
+        self._pivot_levels: dict[str, object] = {}
 
         # Register shutdown handlers
         signal.signal(signal.SIGTERM, self._handle_shutdown)
@@ -147,6 +154,29 @@ class StockAlertScheduler:
             now_ist.strftime("%H:%M:%S")
         )
 
+        # ── Calculate pivot levels once per trading day ────────────────────
+        # Stored in self._pivot_levels dict — persists across cycles
+        # Cleared on restart so recalculates fresh each session
+        for ticker in self._settings.watchlist_tickers:
+            if ticker not in self._pivot_levels:
+                lvl = self._pivot_calc.calculate(ticker)
+                if lvl:
+                    self._pivot_levels[ticker] = lvl
+                    logger.info(
+                        "[%s] Pivot levels ready: "
+                        "PP=%.2f  R1=%.2f  R2=%.2f  "
+                        "S1=%.2f  S2=%.2f",
+                        ticker,
+                        lvl.pivot, lvl.r1, lvl.r2,
+                        lvl.s1, lvl.s2,
+                    )
+                else:
+                    logger.warning(
+                        "[%s] Pivot calculation failed — "
+                        "S/R alerts disabled this cycle",
+                        ticker
+                    )
+
         # ── Fetch all prices ───────────────────────────────────────────────
         tickers   = self._settings.watchlist_tickers
         price_map = self._fetcher.fetch_all(tickers)
@@ -167,18 +197,51 @@ class StockAlertScheduler:
                 continue
 
             try:
+                # ── Normal price change alert ──────────────────────────────
                 signal = self._analyzer.analyze(price_data)
-
                 if signal is None:
-                    logger.debug(
-                        "[%s] No alert signal — price change within normal range",
-                        ticker
-                    )
                     alerts_skipped += 1
-                    continue
+                else:
+                    result = self._notifier.send(signal)
+                    if result.success:
+                        alerts_sent += 1
+                        logger.info(
+                            "[%s] Alert sent ✓ | %s %+.2f%%",
+                            ticker,
+                            signal.direction.value,
+                            signal.change_pct,
+                        )
+                    else:
+                        logger.error(
+                            "[%s] Alert FAILED: %s",
+                            ticker, result.error_message,
+                        )
 
-                # Signal generated — send the email
-                result = self._notifier.send(signal)
+                # ── Support / Resistance level alerts ──────────────────────
+                pivot_levels = self._pivot_levels.get(ticker)
+                if pivot_levels:
+                    level_alerts = self._level_monitor.check(
+                        current_price=price_data.price,
+                        levels=pivot_levels,
+                    )
+                    for level_alert in level_alerts:
+                        lvl_result = self._notifier.send_level_alert(
+                            level_alert
+                        )
+                        if lvl_result.success:
+                            alerts_sent += 1
+                            logger.info(
+                                "[%s] Level alert sent ✓ | %s %s",
+                                ticker,
+                                level_alert.alert_type.value,
+                                level_alert.level_name,
+                            )
+
+            except Exception as exc:
+                logger.error(
+                    "[%s] Unexpected error: %s", ticker, exc,
+                    exc_info=True
+                )
 
                 if result.success:
                     alerts_sent += 1

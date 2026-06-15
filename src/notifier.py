@@ -59,6 +59,32 @@ class EmailNotifier:
     (keeps things simple and avoids stale connection issues).
     """
 
+    def send_level_alert(self, alert) -> NotificationResult:
+        """
+        Sends a support/resistance level alert email.
+        Uses a distinct subject line format from normal price alerts.
+        """
+        recipient = self._settings.ALERT_RECIPIENT_EMAIL
+        subject   = alert.format_email_subject()
+        body      = alert.format_email_body()
+
+        logger.info(
+            "Sending level alert to %s | Subject: %s",
+            recipient, subject
+        )
+        result = self._send_email(
+            recipient=recipient,
+            subject=subject,
+            body=body,
+        )
+        if result.success:
+            logger.info("Level alert sent successfully.")
+        else:
+            logger.error(
+                "Level alert failed: %s", result.error_message
+            )
+        return result
+
     def __init__(self) -> None:
         self._settings = get_settings()
 
