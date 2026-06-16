@@ -220,62 +220,97 @@ class TelegramNotifier:
         """
         Makes the actual HTTP POST to Telegram Bot API.
         Uses parse_mode=HTML for bold/monospace formatting.
+        Handles long messages by splitting at 4096 char limit.
         Never raises — all errors caught and returned.
         """
+        # Telegram max message length is 4096 characters
+        # Split long briefing messages into chunks
+        MAX_LENGTH = 4000  # slightly under limit for safety
+        chunks = []
+
+        if len(text) <= MAX_LENGTH:
+            chunks = [text]
+        else:
+            # Split on double newline to keep sections together
+            current_chunk = ""
+            for line in text.split("\n"):
+                if len(current_chunk) + len(line) + 1 > MAX_LENGTH:
+                    if current_chunk:
+                        chunks.append(current_chunk.strip())
+                    current_chunk = line + "\n"
+                else:
+                    current_chunk += line + "\n"
+            if current_chunk.strip():
+                chunks.append(current_chunk.strip())
+
         url = TELEGRAM_API_BASE.format(
             token=self._token,
             method="sendMessage",
         )
-        payload = {
-            "chat_id":    self._chat_id,
-            "text":       text,
-            "parse_mode": "HTML",   # enables <b>, <code>, <i> tags
-        }
 
-        try:
-            response = requests.post(
-                url,
-                json=payload,
-                timeout=10,   # 10 second timeout
-            )
-            data = response.json()
+        last_result = TelegramResult(success=False, chat_id=self._chat_id)
 
-            if response.status_code == 200 and data.get("ok"):
-                logger.info("Telegram message sent to chat %s", self._chat_id)
-                return TelegramResult(success=True, chat_id=self._chat_id)
+        for i, chunk in enumerate(chunks):
+            payload = {
+                "chat_id":    self._chat_id,
+                "text":       chunk,
+                "parse_mode": "HTML",
+            }
+            try:
+                response = requests.post(
+                    url,
+                    json=payload,
+                    timeout=30,   # increased from 10 to 30 seconds
+                )
+                data = response.json()
 
-            # API returned an error
-            error = data.get("description", "Unknown Telegram API error")
-            logger.error("Telegram API error: %s", error)
-            return TelegramResult(
-                success=False,
-                chat_id=self._chat_id,
-                error_message=error,
-            )
+                if response.status_code == 200 and data.get("ok"):
+                    logger.info(
+                        "Telegram message chunk %d/%d sent to chat %s",
+                        i + 1, len(chunks), self._chat_id
+                    )
+                    last_result = TelegramResult(
+                        success=True, chat_id=self._chat_id
+                    )
+                else:
+                    error = data.get(
+                        "description", "Unknown Telegram API error"
+                    )
+                    logger.error("Telegram API error: %s", error)
+                    return TelegramResult(
+                        success=False,
+                        chat_id=self._chat_id,
+                        error_message=error,
+                    )
 
-        except requests.exceptions.ConnectionError:
-            error = "No internet connection — cannot reach Telegram API"
-            logger.error(error)
-            return TelegramResult(
-                success=False,
-                chat_id=self._chat_id,
-                error_message=error,
-            )
+            except requests.exceptions.ConnectionError:
+                error = "No internet — cannot reach Telegram API"
+                logger.error(error)
+                return TelegramResult(
+                    success=False,
+                    chat_id=self._chat_id,
+                    error_message=error,
+                )
 
-        except requests.exceptions.Timeout:
-            error = "Telegram API request timed out after 10 seconds"
-            logger.error(error)
-            return TelegramResult(
-                success=False,
-                chat_id=self._chat_id,
-                error_message=error,
-            )
+            except requests.exceptions.Timeout:
+                error = (
+                    f"Telegram API timed out on chunk {i+1}/{len(chunks)}. "
+                    "Check your internet connection speed."
+                )
+                logger.error(error)
+                return TelegramResult(
+                    success=False,
+                    chat_id=self._chat_id,
+                    error_message=error,
+                )
 
-        except Exception as exc:
-            error = f"Unexpected error sending Telegram message: {exc}"
-            logger.error(error, exc_info=True)
-            return TelegramResult(
-                success=False,
-                chat_id=self._chat_id,
-                error_message=error,
-            )
+            except Exception as exc:
+                error = f"Unexpected error sending Telegram message: {exc}"
+                logger.error(error, exc_info=True)
+                return TelegramResult(
+                    success=False,
+                    chat_id=self._chat_id,
+                    error_message=error,
+                )
+
+        return last_result

@@ -163,7 +163,7 @@ This is an automated message from your Stock Alert System.
 
     def send_level_alert(self, alert) -> NotificationResult:
         """
-        Sends a support/resistance level alert email.
+        Sends a support/resistance level alert via email AND Telegram.
         Distinct subject line format from normal price alerts.
         """
         recipient = self._settings.ALERT_RECIPIENT_EMAIL
@@ -174,18 +174,83 @@ This is an automated message from your Stock Alert System.
             "Sending level alert to %s | Subject: %s",
             recipient, subject
         )
+
+        # ── Email ──────────────────────────────────────────────────────────
         result = self._send_email(
             recipient=recipient,
             subject=subject,
             body=body,
         )
         if result.success:
-            logger.info("Level alert sent successfully.")
+            logger.info("Level alert email sent successfully.")
         else:
             logger.error(
-                "Level alert failed: %s", result.error_message
+                "Level alert email failed: %s", result.error_message
             )
+
+        # ── Telegram ───────────────────────────────────────────────────────
+        tg_message = self._format_level_alert_telegram(alert)
+        tg_result  = self._telegram._send_message(tg_message)
+        if tg_result.success:
+            logger.info("Level alert Telegram sent ✓")
+        else:
+            logger.warning(
+                "Level alert Telegram failed (non-critical): %s",
+                tg_result.error_message
+            )
+
         return result
+    
+    def _format_level_alert_telegram(self, alert) -> str:
+        """
+        Formats a support/resistance level alert for Telegram.
+        Kept concise for quick reading on phone.
+        """
+        from .levels import LevelAlertType
+
+        if alert.alert_type == LevelAlertType.BREAKOUT:
+            header = "🟢 <b>BREAKOUT ALERT</b>"
+            action = "Price broke ABOVE resistance — possible bullish move"
+        elif alert.alert_type == LevelAlertType.BREAKDOWN:
+            header = "🔴 <b>BREAKDOWN ALERT</b>"
+            action = "Price broke BELOW support — possible bearish move"
+        else:
+            if alert.level_type.value == "RESISTANCE":
+                header = "⚠️ <b>APPROACHING RESISTANCE</b>"
+                action = "Watch for rejection or breakout above this level"
+            else:
+                header = "⚠️ <b>APPROACHING SUPPORT</b>"
+                action = "Watch for bounce or breakdown below this level"
+
+        sign = "+" if alert.current_price >= alert.level_price else "-"
+
+        return (
+            f"{header}\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"\n"
+            f"📊 <b>{alert.display_name}</b>\n"
+            f"\n"
+            f"<b>Level</b>     : {alert.level_name} "
+            f"({alert.level_type.value})\n"
+            f"<b>Level Price</b>: "
+            f"<code>₹{alert.level_price:,.2f}</code>\n"
+            f"<b>Current</b>   : "
+            f"<code>₹{alert.current_price:,.2f}</code>\n"
+            f"<b>Distance</b>  : "
+            f"<code>{abs(alert.distance_pct):.3f}%</code>\n"
+            f"\n"
+            f"💡 {action}\n"
+            f"\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"<b>All Levels Today</b>\n"
+            f"R3: <code>{alert.levels.r3:,.2f}</code>  "
+            f"R2: <code>{alert.levels.r2:,.2f}</code>  "
+            f"R1: <code>{alert.levels.r1:,.2f}</code>\n"
+            f"PP: <code>{alert.levels.pivot:,.2f}</code>\n"
+            f"S1: <code>{alert.levels.s1:,.2f}</code>  "
+            f"S2: <code>{alert.levels.s2:,.2f}</code>  "
+            f"S3: <code>{alert.levels.s3:,.2f}</code>"
+        )
 
     # ── Private: SMTP ─────────────────────────────────────────────────────────
 

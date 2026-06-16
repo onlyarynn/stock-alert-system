@@ -21,6 +21,8 @@ from .config import get_settings
 from .fetcher import MarketDataFetcher
 from .levels import LevelMonitor, PivotCalculator
 from .notifier import EmailNotifier
+from .briefing import BriefingService
+
 
 logger = logging.getLogger(__name__)
 IST = ZoneInfo("Asia/Kolkata")
@@ -37,6 +39,7 @@ class StockAlertScheduler:
         self._notifier      = EmailNotifier()
         self._scheduler     = BlockingScheduler(timezone=str(IST))
         self._cycle         = 0
+        self._briefing = BriefingService()
         self._calendar      = MarketCalendar()
         self._pivot_calc    = PivotCalculator()
         self._level_monitor = LevelMonitor()
@@ -56,31 +59,37 @@ class StockAlertScheduler:
             coalesce=True,
             misfire_grace_time=60,
         )
-        logger.info("=" * 55)
-        logger.info("  Scheduler started")
-        logger.info("  Polling every : %d seconds (%d min)",
-                    interval, interval // 60)
-        logger.info("  Watchlist     : %s", self._settings.watchlist_tickers)
-        logger.info("  Threshold     : %.2f%%", self._settings.ALERT_THRESHOLD_PCT)
-        logger.info("  Cooldown      : %d min", self._settings.COOLDOWN_MINUTES)
-        logger.info("  Market hours  : %02d:%02d - %02d:%02d IST (Mon-Fri)",
-                    self._settings.MARKET_OPEN_HOUR,
-                    self._settings.MARKET_OPEN_MINUTE,
-                    self._settings.MARKET_CLOSE_HOUR,
-                    self._settings.MARKET_CLOSE_MINUTE)
-        logger.info("=" * 55)
+ # ── Morning briefing job — 8:45 AM IST every weekday ──────────────
+        from apscheduler.triggers.cron import CronTrigger
+        self._scheduler.add_job(
+            func=self._briefing.send_morning_briefing,
+            trigger=CronTrigger(
+                hour=8, minute=45,
+                day_of_week="mon-fri",
+                timezone=str(IST),
+            ),
+            id="morning_briefing",
+            name="Pre-market morning briefing",
+            max_instances=1,
+            coalesce=True,
+        )
 
-        self._run_cycle()
-        try:
-            self._scheduler.start()
-        except (KeyboardInterrupt, SystemExit):
-            logger.info("Scheduler stopped.")
+        # ── EOD summary job — 3:35 PM IST every weekday ───────────────────
+        self._scheduler.add_job(
+            func=self._briefing.send_eod_summary,
+            trigger=CronTrigger(
+                hour=15, minute=35,
+                day_of_week="mon-fri",
+                timezone=str(IST),
+            ),
+            id="eod_summary",
+            name="End of day summary",
+            max_instances=1,
+            coalesce=True,
+        )
 
-    def _handle_shutdown(self, signum, frame) -> None:
-        logger.info("Shutdown signal (%s) — stopping…", signum)
-        if self._scheduler.running:
-            self._scheduler.shutdown(wait=False)
-        sys.exit(0)
+        logger.info("  Briefing jobs : 8:45 AM (morning) | 3:35 PM (EOD)")
+
 
     # ── Core Cycle ─────────────────────────────────────────────────────────────
 
