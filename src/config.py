@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     GMAIL_SENDER: str          = Field(...)
     GMAIL_APP_PASSWORD: str    = Field(...)
     ALERT_RECIPIENT_EMAIL: str = Field(...)
+    ALERT_RECIPIENT_EMAIL_2: str = Field(
+        default="",
+        description="Optional second recipient email address"
+    )
 
     # ── Telegram credentials (optional) ───────────────────────────────
     TELEGRAM_BOT_TOKEN: str = Field(
@@ -88,6 +92,17 @@ class Settings(BaseSettings):
                 f"got {len(cleaned)}."
             )
         return cleaned
+    
+    @property
+    def all_recipients(self) -> list[str]:
+        """
+        Returns list of all configured recipient email addresses.
+        Always includes primary. Adds second only if configured.
+        """
+        recipients = [self.ALERT_RECIPIENT_EMAIL]
+        if self.ALERT_RECIPIENT_EMAIL_2.strip():
+            recipients.append(self.ALERT_RECIPIENT_EMAIL_2.strip())
+        return recipients
 
     @property
     def watchlist_tickers(self) -> list[str]:

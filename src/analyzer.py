@@ -1,6 +1,14 @@
 """
-analyzer.py — Signal analysis layer.
-Detects NORMAL and CRITICAL price movements and generates AlertSignals.
+analyzer.py
+-----------
+Signal analysis layer — the core decision engine.
+
+Takes fresh PriceData, compares it against the last stored price,
+applies threshold and cooldown rules, and returns an AlertSignal
+when an alert should be sent — or None when no alert is needed.
+
+Now includes India VIX context in every alert email body so you
+know whether the market fear level supports or contradicts the signal.
 """
 
 from __future__ import annotations
@@ -38,6 +46,38 @@ class Direction(str, Enum):
     FLAT    = "FLAT"
 
 
+# ── VIX Section Helper (module-level, not inside dataclass) ────────────────────
+
+def _fetch_vix_section() -> str:
+    """
+    Fetches current India VIX and returns a formatted context
+    string for alert email bodies.
+
+    Defined as a module-level function — NOT a dataclass method —
+    because AlertSignal uses frozen=True which causes issues with
+    methods that have side effects like network calls.
+
+    Falls back gracefully if VIX data is unavailable.
+    """
+    try:
+        from .vix import VixFetcher, VixInterpreter
+        snap = VixFetcher().fetch()
+        if snap is None:
+            return "  India VIX: unavailable at this time"
+        return (
+            f"  India VIX     : {snap.value:.2f} "
+            f"({snap.sign}{snap.change_pct:.2f}% {snap.change_arrow})\n"
+            f"  VIX Zone      : {snap.zone_emoji} {snap.zone_label}\n"
+            f"  Market Context: "
+            f"{VixInterpreter.get_market_context(snap)}\n"
+            f"  Advice        : "
+            f"{VixInterpreter.get_threshold_advice(snap)}"
+        )
+    except Exception as exc:
+        logger.warning("VIX section failed in email body: %s", exc)
+        return "  India VIX: could not be retrieved"
+
+
 # ── Alert Signal ───────────────────────────────────────────────────────────────
 
 @dataclass(frozen=True)
@@ -45,6 +85,7 @@ class AlertSignal:
     """
     Immutable object representing one confirmed alert event.
     Created by MarketAnalyzer.analyze(), passed to EmailNotifier.send().
+    frozen=True — values cannot be changed after creation.
     """
     ticker:         str
     display_name:   str
@@ -60,7 +101,8 @@ class AlertSignal:
 
     @property
     def level_badge(self) -> str:
-        return "🚨 CRITICAL" if self.level == AlertLevel.CRITICAL else "🔔 NORMAL"
+        return "🚨 CRITICAL" if self.level == AlertLevel.CRITICAL \
+               else "🔔 NORMAL"
 
     @property
     def direction_arrow(self) -> str:
@@ -77,7 +119,7 @@ class AlertSignal:
         ist_time = self.generated_at.astimezone(ist)
         return ist_time.strftime("%d %b %Y, %I:%M %p IST")
 
-    # ── Email formatting ───────────────────────────────────────────────────────
+    # ── Email Formatting ───────────────────────────────────────────────────────
 
     def format_email_subject(self) -> str:
         sign   = "+" if self.change_pct > 0 else ""
@@ -96,11 +138,14 @@ class AlertSignal:
         settings  = get_settings()
 
         if self.level == AlertLevel.CRITICAL:
-            urgency_line1 = "⚠️  URGENT: Major market movement detected!"
+            urgency_line1 = "URGENT: Major market movement detected!"
             urgency_line2 = "Act now — review your positions immediately."
         else:
             urgency_line1 = "Standard market movement alert."
             urgency_line2 = "Monitor the situation."
+
+        # Fetch live VIX context — module-level function, not a method
+        vix_section = _fetch_vix_section()
 
         return f"""
 {separator}
@@ -118,10 +163,15 @@ class AlertSignal:
   Alert Time    : {self.ist_time_str}
 
 {separator}
+  VOLATILITY CONTEXT (India VIX)
+{separator}
+{vix_section}
+
+{separator}
 {urgency_line1}
 {urgency_line2}
 
-Thresholds — Normal: >={settings.ALERT_THRESHOLD_PCT}% | Critical: >={settings.CRITICAL_THRESHOLD_PCT}%
+Thresholds: Normal >={settings.ALERT_THRESHOLD_PCT}% | Critical >={settings.CRITICAL_THRESHOLD_PCT}%
 This is an automated alert from your Stock Alert System.
 {separator}
         """.strip()
@@ -205,7 +255,7 @@ class MarketAnalyzer:
                     )
                     return None
                 logger.warning(
-                    "[%s] 🚨 CRITICAL movement: %+.2f%%",
+                    "[%s] CRITICAL movement: %+.2f%%",
                     ticker, change_pct
                 )
             else:
@@ -239,7 +289,7 @@ class MarketAnalyzer:
         )
         return signal
 
-    # ── Cooldown helpers ───────────────────────────────────────────────────────
+    # ── Cooldown Helpers ───────────────────────────────────────────────────────
 
     def _is_in_cooldown(self, session, ticker: str) -> bool:
         """Standard 30-min cooldown for NORMAL alerts."""
@@ -248,12 +298,14 @@ class MarketAnalyzer:
             return False
         if last_sent.tzinfo is None:
             last_sent = last_sent.replace(tzinfo=timezone.utc)
-        elapsed  = datetime.now(timezone.utc) - last_sent
-        cooldown = timedelta(minutes=self._settings.COOLDOWN_MINUTES)
+        elapsed     = datetime.now(timezone.utc) - last_sent
+        cooldown    = timedelta(minutes=self._settings.COOLDOWN_MINUTES)
         in_cooldown = elapsed < cooldown
         if in_cooldown:
             remaining = int((cooldown - elapsed).total_seconds() / 60)
-            logger.debug("[%s] Cooldown: %d min remaining", ticker, remaining)
+            logger.debug(
+                "[%s] Cooldown: %d min remaining", ticker, remaining
+            )
         return in_cooldown
 
     def _is_in_critical_cooldown(self, session, ticker: str) -> bool:
@@ -265,12 +317,15 @@ class MarketAnalyzer:
             return False
         if last_sent.tzinfo is None:
             last_sent = last_sent.replace(tzinfo=timezone.utc)
-        elapsed  = datetime.now(timezone.utc) - last_sent
-        cooldown = timedelta(minutes=self._settings.CRITICAL_COOLDOWN_MINUTES)
+        elapsed     = datetime.now(timezone.utc) - last_sent
+        cooldown    = timedelta(
+            minutes=self._settings.CRITICAL_COOLDOWN_MINUTES
+        )
         in_cooldown = elapsed < cooldown
         if in_cooldown:
             remaining = int((cooldown - elapsed).total_seconds() / 60)
             logger.debug(
-                "[%s] Critical cooldown: %d min remaining", ticker, remaining
+                "[%s] Critical cooldown: %d min remaining",
+                ticker, remaining
             )
         return in_cooldown

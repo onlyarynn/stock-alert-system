@@ -1,10 +1,3 @@
-"""
-notifier.py
------------
-Email notification layer — sends alert emails via Gmail SMTP.
-Also fires Telegram alerts in parallel when configured.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -44,9 +37,11 @@ class NotificationResult:
 
 class EmailNotifier:
     """
-    Sends alert emails via Gmail SMTP.
-    Fires Telegram alerts in parallel when TELEGRAM_BOT_TOKEN
-    and TELEGRAM_CHAT_ID are configured in .env.
+    Sends all alert emails via Gmail SMTP.
+    Fires Telegram alerts in parallel when configured.
+
+    Instantiate once and reuse — the SMTP connection is
+    opened fresh for each email to avoid stale connections.
     """
 
     def __init__(self) -> None:
@@ -76,7 +71,7 @@ class EmailNotifier:
             body=body,
         )
 
-        # ── Telegram (parallel — failure never blocks email) ───────────────
+        # ── Telegram (failure never blocks email result) ───────────────────
         tg_result = self._telegram.send_alert(signal)
         if tg_result.success:
             logger.info("Telegram alert sent ✓")
@@ -106,7 +101,7 @@ class EmailNotifier:
     ) -> NotificationResult:
         """
         Sends a single notification email when market is closed.
-        Called once per closed day.
+        Called once per closed day by the scheduler.
         """
         recipient = self._settings.ALERT_RECIPIENT_EMAIL
         subject   = f"[MARKET CLOSED] {reason} — Resumes {next_trading_day}"
@@ -159,12 +154,12 @@ This is an automated message from your Stock Alert System.
             )
         return result
 
-    # ── Public: Support/Resistance level alert ────────────────────────────────
+    # ── Public: S/R level alert ────────────────────────────────────────────────
 
     def send_level_alert(self, alert) -> NotificationResult:
         """
         Sends a support/resistance level alert via email AND Telegram.
-        Distinct subject line format from normal price alerts.
+        Uses a distinct subject line format from normal price alerts.
         """
         recipient = self._settings.ALERT_RECIPIENT_EMAIL
         subject   = alert.format_email_subject()
@@ -200,12 +195,66 @@ This is an automated message from your Stock Alert System.
             )
 
         return result
-    
+
+    # ── Public: VIX spike alert (NEW) ─────────────────────────────────────────
+
+    def send_vix_spike_alert(self, vix_snap) -> NotificationResult:
+        """
+        Sends a dedicated India VIX spike alert via email AND Telegram.
+
+        Fired by the scheduler when India VIX rises more than 15%
+        from previous close in a single session — a reliable leading
+        indicator of an imminent Nifty 50 sell-off.
+
+        Args:
+            vix_snap: VixSnapshot object from src/vix.py
+        """
+        from .vix import VixAlertChecker
+
+        checker   = VixAlertChecker()
+        recipient = self._settings.ALERT_RECIPIENT_EMAIL
+        subject   = checker.format_spike_email_subject(vix_snap)
+        body      = checker.format_spike_email_body(vix_snap)
+
+        logger.warning(
+            "Sending VIX spike alert | VIX=%.2f (%+.1f%%)",
+            vix_snap.value, vix_snap.change_pct,
+        )
+
+        # ── Email ──────────────────────────────────────────────────────────
+        result = self._send_email(
+            recipient=recipient,
+            subject=subject,
+            body=body,
+        )
+        if result.success:
+            logger.warning(
+                "VIX spike alert email sent ✓ | VIX=%.2f",
+                vix_snap.value,
+            )
+        else:
+            logger.error(
+                "VIX spike alert email FAILED: %s",
+                result.error_message,
+            )
+
+        # ── Telegram ───────────────────────────────────────────────────────
+        tg_message = checker.format_spike_telegram(vix_snap)
+        tg_result  = self._telegram._send_message(tg_message)
+        if tg_result.success:
+            logger.warning("VIX spike alert Telegram sent ✓")
+        else:
+            logger.warning(
+                "VIX spike Telegram failed (non-critical): %s",
+                tg_result.error_message,
+            )
+
+        return result
+
+    # ── Private: Level alert Telegram formatter ────────────────────────────────
+
     def _format_level_alert_telegram(self, alert) -> str:
-        """
-        Formats a support/resistance level alert for Telegram.
-        Kept concise for quick reading on phone.
-        """
+        """Formats a support/resistance level alert for Telegram HTML."""
         from .levels import LevelAlertType
 
         if alert.alert_type == LevelAlertType.BREAKOUT:
@@ -222,21 +271,19 @@ This is an automated message from your Stock Alert System.
                 header = "⚠️ <b>APPROACHING SUPPORT</b>"
                 action = "Watch for bounce or breakdown below this level"
 
-        sign = "+" if alert.current_price >= alert.level_price else "-"
-
         return (
             f"{header}\n"
             f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             f"\n"
             f"📊 <b>{alert.display_name}</b>\n"
             f"\n"
-            f"<b>Level</b>     : {alert.level_name} "
+            f"<b>Level</b>      : {alert.level_name} "
             f"({alert.level_type.value})\n"
             f"<b>Level Price</b>: "
-            f"<code>₹{alert.level_price:,.2f}</code>\n"
-            f"<b>Current</b>   : "
-            f"<code>₹{alert.current_price:,.2f}</code>\n"
-            f"<b>Distance</b>  : "
+            f"<code>Rs.{alert.level_price:,.2f}</code>\n"
+            f"<b>Current</b>    : "
+            f"<code>Rs.{alert.current_price:,.2f}</code>\n"
+            f"<b>Distance</b>   : "
             f"<code>{abs(alert.distance_pct):.3f}%</code>\n"
             f"\n"
             f"💡 {action}\n"
@@ -261,12 +308,18 @@ This is an automated message from your Stock Alert System.
         subject: str,
         body: str,
     ) -> NotificationResult:
-        """Builds MIME email and sends via Gmail SMTP SSL port 465."""
+        """
+        Builds MIME email and sends via Gmail SMTP SSL port 465.
+        Sends to ALL configured recipients (primary + secondary).
+        Returns success if at least one recipient received the email.
+        """
+        all_recipients = self._settings.all_recipients
+
         try:
             msg = MIMEMultipart("alternative")
             msg["Subject"] = subject
             msg["From"]    = self._settings.GMAIL_SENDER
-            msg["To"]      = recipient
+            msg["To"]      = ", ".join(all_recipients)
             msg.attach(MIMEText(body, "plain", "utf-8"))
 
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
@@ -276,15 +329,20 @@ This is an automated message from your Stock Alert System.
                 )
                 server.sendmail(
                     from_addr=self._settings.GMAIL_SENDER,
-                    to_addrs=[recipient],
+                    to_addrs=all_recipients,
                     msg=msg.as_string(),
                 )
 
-            logger.debug(
-                "SMTP send successful: %s → %s",
-                self._settings.GMAIL_SENDER, recipient
+            logger.info(
+                "Email sent to %d recipient(s): %s",
+                len(all_recipients),
+                ", ".join(all_recipients),
             )
-            return NotificationResult(success=True, recipient=recipient)
+            # Return result with primary recipient for DB recording
+            return NotificationResult(
+                success=True,
+                recipient=", ".join(all_recipients),
+            )
 
         except smtplib.SMTPAuthenticationError:
             error = (
@@ -293,21 +351,27 @@ This is an automated message from your Stock Alert System.
             )
             logger.error(error)
             return NotificationResult(
-                success=False, recipient=recipient, error_message=error
+                success=False,
+                recipient=recipient,
+                error_message=error,
             )
 
-        except smtplib.SMTPRecipientsRefused:
-            error = f"Recipient refused by Gmail: {recipient}"
+        except smtplib.SMTPRecipientsRefused as exc:
+            error = f"One or more recipients refused by Gmail: {exc}"
             logger.error(error)
             return NotificationResult(
-                success=False, recipient=recipient, error_message=error
+                success=False,
+                recipient=recipient,
+                error_message=error,
             )
 
         except smtplib.SMTPException as exc:
             error = f"SMTP error: {exc}"
             logger.error(error)
             return NotificationResult(
-                success=False, recipient=recipient, error_message=error
+                success=False,
+                recipient=recipient,
+                error_message=error,
             )
 
         except OSError as exc:
@@ -317,16 +381,20 @@ This is an automated message from your Stock Alert System.
             )
             logger.error(error)
             return NotificationResult(
-                success=False, recipient=recipient, error_message=error
+                success=False,
+                recipient=recipient,
+                error_message=error,
             )
 
         except Exception as exc:
             error = f"Unexpected error sending email: {exc}"
             logger.error(error, exc_info=True)
             return NotificationResult(
-                success=False, recipient=recipient, error_message=error
+                success=False,
+                recipient=recipient,
+                error_message=error,
             )
-
+    
     # ── Private: Database ─────────────────────────────────────────────────────
 
     def _record_to_db(
